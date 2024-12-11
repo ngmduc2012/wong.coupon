@@ -1,0 +1,152 @@
+<img src="https://raw.githubusercontent.com/felangel/mason/master/assets/mason_demo.gif" >
+
+
+<h1>Boost Your Flutter Development Efficiency with Mason</h1>
+
+<p> As Flutter projects grow in complexity, maintaining consistency and efficiency in your codebase becomes crucial. Mason is a powerful tool that helps you streamline your development process by generating reusable code templates. This guide will walk you through the benefits of using Mason, how to set it up, and how to integrate it into your Flutter projects.</p>
+
+<h2>Why Choose Mason for Your Flutter Projects?</h2>
+
+<h3>1. Streamline Code Reusability</h3>
+<p>When projects expand, having standardized code templates is essential. Mason allows you to encapsulate your best practices into templates, saving you from the repetitive task of rewriting or copying code.</p>
+
+<h3>2. Enhance Team Collaboration</h3>
+<p>Different coding styles can lead to inconsistencies. Mason helps unify your team's coding practices by providing a common template structure, ensuring clean and maintainable code.</p>
+
+<h3>3. Save Time and Effort</h3>
+<p>Rebuilding code from scratch is time-consuming. Mason automates this process, allowing you to focus on more critical aspects of development.</p>
+
+<!-- Google AdSense Code -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3945585486093119" crossorigin="anonymous"></script>
+<!-- Test Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3945585486093119"
+     data-ad-slot="4182887277"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<h2>How Mason Solves Common Development Challenges</h2>
+
+<h3>1. Simplified Code Generation</h3>
+<p>Mason generates code templates in a structured format, reducing the risk of syntax errors and saving time. It supports large, customizable templates that can be used anywhere on your machine.</p>
+
+<h3>2. Consistent Code Quality</h3>
+<p>By using Mason, you ensure that your code adheres to a consistent style and structure, making it easier to maintain and scale.</p>
+
+<h2>Setting Up Mason in Your Flutter Project</h2>
+
+<h3>1. Installation</h3>
+<p>To get started with <a href="https://pub.dev/packages/mason_cli"><strong>Mason CLI</strong></a>, visit the Mason CLI page for installation instructions. Assume you have set up everything in a directory named <code>mason_core</code>.</p>
+
+<h3>2. Creating a Mason Template: <code>dr_screen</code></h3>
+
+<h4>Step 1: Navigate to Your Mason Directory</h4>
+<p>Open your terminal and navigate to the <code>mason_core</code> directory:</p>
+<pre><code>cd /path/to/mason_core</code></pre>
+
+<img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/boost-your-flutter-development-efficiency-with-mason/image/boost-your-flutter-development-efficiency-with-mason-image-1.png" >
+
+<h4>Step 2: Create a New Template</h4>
+<p>Run the command to create a new Mason template named <code>dr_screen</code> in the <code>dart</code> directory:</p>
+
+
+<pre><code>mason new dr_screen -o dart/</code></pre>
+
+<h4>Step 3: Declare the Template in <code>mason.yaml</code></h4>
+<p>Add the following to your <code>mason.yaml</code> file:</p>
+<pre><code>dr_screen:
+  path: dart/dr_screen</code></pre>
+<img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/boost-your-flutter-development-efficiency-with-mason/image/boost-your-flutter-development-efficiency-with-mason-image-2.png" >
+
+
+<h4>Step 4: Customize Your Template</h4>
+<p>Add your files to the <code>__brick__</code> directory. Declare variables in <code>brick.yaml</code> to customize names and other parameters:</p>
+<pre><code>vars:
+  name:
+    type: string
+    description: Your name
+    default: ducmng12
+    prompt: What is your name?
+  type:
+    type: string
+    description: Your type
+    default: screen
+    values: [screen, widget, part screen]
+    prompt: What is your type (screen, widget, part screen)?</code></pre>
+
+
+<img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/boost-your-flutter-development-efficiency-with-mason/image/boost-your-flutter-development-efficiency-with-mason-image-3.png" >
+
+<p>Mason will use these variables to customize the template based on user input. Common Dart naming conventions include:</p>
+<ul>
+    <li><code>HelloWorld</code> for <code>{{name.pascalCase()}}</code></li>
+    <li><code>hello_world</code> for <code>{{name.snakeCase()}}</code></li>
+    <li><code>helloWorld</code> for <code>{{name.camelCase()}}</code></li>
+    <li><code>Hello World</code> for <code>{{name}}</code></li>
+</ul>
+<p>Refer to the <a href="https://pub.dev/packages/mason_cli#brick-template">Mason CLI documentation</a> for more transformation examples.</p>
+
+<h4>Step 5: Finalize Your Setup</h4>
+<p>Once everything is set up, run:</p>
+<pre><code>mason upgrade</code></pre>
+
+<h2>Using Mason to Generate Code</h2>
+
+<h3>Step 1: Navigate to Your Mason Directory</h3>
+<p>Open your terminal and navigate to the <code>mason_core</code> directory:</p>
+<pre><code>cd /path/to/mason_core</code></pre>
+
+<h3>Step 2: Generate Code from the Template</h3>
+<p>Run the following command to generate code from the <code>dr_screen</code> template:</p>
+<pre><code>mason make dr_screen -o /path/to/your/desired/directory</code></pre>
+<p>Replace <code>/path/to/your/desired/directory</code> with the path where you want the code to be generated.</p>
+
+
+<img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/boost-your-flutter-development-efficiency-with-mason/image/boost-your-flutter-development-efficiency-with-mason-image-4.png" >
+
+
+<h2>Setting Up Mason in a New Project</h2>
+
+<h3>Step 1: Install <a href="https://pub.dev/packages/mason_cli#installation">mason_cli</a></h3>
+<p>Skip this step if Mason is already installed:</p>
+<pre><code>dart pub global activate mason_cli</code></pre>
+
+<h3>Step 2: Navigate to Your Mason Directory</h3>
+<pre><code>cd /path/to/mason_core</code></pre>
+
+<h3>Step 3: Update Mason</h3>
+<p>Run the following command:</p>
+<pre><code>mason upgrade -g</code></pre>
+
+<h2>Disabling Dart Analysis for Mason</h2>
+
+<img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/boost-your-flutter-development-efficiency-with-mason/image/boost-your-flutter-development-efficiency-with-mason-image-5.png" >
+
+<h3>Step 1: Update <code>analysis_options.yaml</code></h3>
+
+<p>Add the following lines to your <code>analysis_options.yaml</code> file:</p>
+<pre><code>exclude:
+  - packages/core_mason/**</code></pre>
+
+<h3>Step 2: Rerun Dart Analysis</h3>
+<img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/boost-your-flutter-development-efficiency-with-mason/image/boost-your-flutter-development-efficiency-with-mason-image-6.png" >
+
+<h2>Community Resources</h2>
+<p>Below are some Mason templates I frequently use. You can explore and use them for free as they are available on BrickHub:</p>
+<ul>
+    <li><strong><a href="https://brickhub.dev/bricks/dr_base_model">dr_base_model</a></strong>: A base model template for data types received from the web.</li>
+    <li><strong><a href="https://brickhub.dev/bricks/dr_base_project">dr_base_project</a></strong>: A base project template for Flutter projects I use.</li>
+    <li><strong><a href="https://brickhub.dev/bricks/dr_bloc">dr_bloc</a></strong>: A BLoC template supporting the most common features.</li>
+    <li><strong><a href="https://brickhub.dev/bricks/dr_change_notifier">dr_change_notifier</a></strong>: A template for change notifier code.</li>
+    <li><strong><a href="https://brickhub.dev/bricks/dr_clean_arch">dr_clean_arch</a></strong>: A clean architecture template for large project features.</li>
+    <li><strong><a href="https://brickhub.dev/bricks/dr_entity">dr_entity</a></strong>: Generates models using <code>json_serializable</code>.</li>
+    <li><strong><a href="https://brickhub.dev/bricks/dr_enum">dr_enum</a></strong>: Generates enum templates for states requiring multiple functionalities.</li>
+    <li><strong><a href="https://brickhub.dev/bricks/dr_freezed">dr_freezed</a></strong>: Generates models using <code>freezed</code>.</li>
+</ul>
+
+<h2>Conclusion</h2>
+<p>By integrating Mason into your Flutter development workflow, you can significantly enhance your coding efficiency and maintain a consistent codebase. This guide provides a comprehensive overview of setting up and using Mason, ensuring you can leverage its full potential in your projects.</p>
