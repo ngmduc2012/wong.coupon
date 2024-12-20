@@ -1,0 +1,138 @@
+<img src="https://raw.githubusercontent.com/felangel/mason/master/assets/mason_demo.gif">
+
+<h1>Tăng Hiệu Quả Lập Trình Flutter Với Mason</h1>
+<p>Khi các dự án Flutter ngày càng phức tạp, việc duy trì tính nhất quán và hiệu quả trong mã nguồn trở nên cực kỳ quan trọng. Mason là một công cụ mạnh mẽ giúp bạn tối ưu hóa quy trình phát triển bằng cách tạo ra các mẫu mã nguồn có thể tái sử dụng. Hướng dẫn này sẽ giúp bạn hiểu rõ lợi ích của Mason, cách cài đặt và tích hợp nó vào các dự án Flutter của bạn.</p>
+<h2>Tại Sao Nên Chọn Mason Cho Dự Án Flutter?</h2>
+<h3>1. Tối Ưu Hóa Việc Tái Sử Dụng Mã Nguồn</h3>
+<p>Khi dự án mở rộng, việc có các mẫu mã nguồn tiêu chuẩn là điều cần thiết. Mason cho phép bạn đóng gói các thực hành tốt nhất vào các mẫu mã, giúp bạn tiết kiệm thời gian lặp lại việc viết hoặc sao chép mã.</p>
+<h3>2. Cải Thiện Sự Hợp Tác Trong Nhóm</h3>
+<p>Những phong cách lập trình khác nhau có thể dẫn đến sự không đồng nhất. Mason giúp thống nhất cách làm việc của nhóm bằng cách cung cấp cấu trúc mẫu chung, đảm bảo mã sạch và dễ bảo trì.</p>
+<h3>3. Tiết Kiệm Thời Gian và Công Sức</h3>
+<p>Xây dựng mã từ đầu rất tốn thời gian. Mason tự động hóa quy trình này, giúp bạn tập trung vào những phần quan trọng hơn trong phát triển.</p> <!-- Mã Google AdSense -->
+
+<!-- Google AdSense Code -->
+<script async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3945585486093119"
+        crossorigin="anonymous"></script>
+<!-- Test Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3945585486093119"
+     data-ad-slot="4182887277"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<h2>Cách Mason Giải Quyết Các Thách Thức Phát Triển Thường Gặp</h2>
+<iframe width="1905" height="789" src="https://www.youtube.com/embed/qjA0JFiPMnQ" title="mason (Package of the Week)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<h3>1. Đơn Giản Hóa Việc Tạo Mã</h3>
+<p>Mason tạo ra các mẫu mã theo cấu trúc, giảm nguy cơ lỗi cú pháp và tiết kiệm thời gian. Nó hỗ trợ các mẫu lớn, có thể tùy chỉnh và sử dụng ở bất kỳ đâu trên máy của bạn.</p> <h3>2. Đảm Bảo Chất Lượng Mã Đồng Nhất</h3>
+<p>Với Mason, bạn có thể đảm bảo mã nguồn tuân theo một phong cách và cấu trúc nhất quán, giúp việc bảo trì và mở rộng dễ dàng hơn.</p>
+<h2>Cài Đặt Mason Trong Dự Án Flutter</h2>
+<h3>1. Cài Đặt</h3>
+<p>Để bắt đầu với<a href="https://pub.dev/packages/mason_cli"><strong>Mason
+    CLI</strong></a>, hãy truy cập trang Mason CLI để xem hướng dẫn cài đặt. Giả sử bạn đã thiết lập
+    mọi thứ trong thư mục <code>mason_core</code>.</p>
+<h3>2. Tạo Mẫu Mason: <code>dr_screen</code></h3>
+<h4>Bước 1: Điều Hướng Đến Thư Mục Mason</h4>
+<p>Mở terminal và điều hướng đến thư mục <code>mason_core</code>:</p>
+<pre><code>cd /path/to/mason_core</code></pre>
+
+<img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/boost-your-flutter-development-efficiency-with-mason/image/boost-your-flutter-development-efficiency-with-mason-image-1.png">
+
+
+<h4>Bước 2: Tạo Mẫu Mới</h4>
+<p>Chạy lệnh để tạo mẫu Mason mới tên <code>dr_screen</code> trong thư mục <code>dart</code>:</p>
+<pre><code>mason new dr_screen -o dart/</code></pre>
+
+<h4>Bước 3: Khai Báo Mẫu Trong
+    <code>mason.yaml</code></h4> <p>Thêm đoạn mã sau vào tệp <code>mason.yaml</code>:</p>
+<pre><code>dr_screen: path: dart/dr_screen</code></pre>
+
+<img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/boost-your-flutter-development-efficiency-with-mason/image/boost-your-flutter-development-efficiency-with-mason-image-2.png">
+
+<h4>Bước 4: Tùy Chỉnh Mẫu</h4> <p>Thêm tệp
+    của bạn vào thư mục <code>__brick__</code>. Khai báo các biến trong <code>brick.yaml</code> để
+    tùy chỉnh tên và các tham số khác:</p>
+<pre><code>vars:
+  name:
+    type: string
+    description: Your name
+    default: ducmng12
+    prompt: What is your name?
+  type:
+    type: string
+    description: Your type
+    default: screen
+    values: [screen, widget, part screen]
+    prompt: What is your type (screen, widget, part screen)?</code></pre>
+
+
+<img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/boost-your-flutter-development-efficiency-with-mason/image/boost-your-flutter-development-efficiency-with-mason-image-3.png">
+
+<p>Mason sẽ sử dụng các biến này để tùy chỉnh mẫu dựa trên đầu vào của người dùng. Một số quy tắc
+    đặt tên trong Dart bao gồm:</p>
+<ul>
+    <li><code>HelloWorld</code> cho <code>{{name.pascalCase()}}</code></li>
+    <li><code>hello_world</code> cho <code>{{name.snakeCase()}}</code></li>
+    <li><code>helloWorld</code> cho <code>{{name.camelCase()}}</code></li>
+    <li><code>Hello World</code> cho <code>{{name}}</code></li>
+</ul> <p>Tham khảo <a href="https://pub.dev/packages/mason_cli#brick-template">tài liệu Mason
+    CLI</a> để biết thêm ví dụ về chuyển đổi.</p>
+<h4>Bước 5: Hoàn Tất Cài Đặt</h4>
+<p>Sau khi thiết lập xong, chạy lệnh:</p>
+<pre><code>mason upgrade</code></pre>
+
+<h2>Sử Dụng Mason Để Tạo Mã</h2>
+<h3>Bước 1: Điều Hướng Đến Thư Mục Mason</h3>
+<p>Mở terminal và điều hướng đến thư mục <code>mason_core</code>:</p>
+<pre><code>cd /path/to/mason_core</code></pre>
+<h3>Bước 2: Tạo Mã Từ Mẫu</h3>
+<p>Chạy lệnh sau để tạo mã từ mẫu <code>dr_screen</code>:</p>
+<pre><code>mason make dr_screen -o /path/to/your/desired/directory</code></pre>
+<p>Thay <code>/path/to/your/desired/directory</code>bằng đường dẫn nơi bạn muốn lưu mã.</p>
+<img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/boost-your-flutter-development-efficiency-with-mason/image/boost-your-flutter-development-efficiency-with-mason-image-4.png">
+
+<h2>Cài đặt Mason trong dự án mới</h2>
+
+<h3>Bước 1: Cài đặt <a href="https://pub.dev/packages/mason_cli#installation">mason_cli</a></h3>
+<p>Bỏ qua bước này nếu Mason đã được cài đặt:</p>
+<pre><code>dart pub global activate mason_cli</code></pre>
+
+<h3>Bước 2: Điều hướng đến thư mục Mason</h3>
+<pre><code>cd /path/to/mason_core</code></pre>
+
+<h3>Bước 3: Cập nhật Mason</h3>
+<p>Chạy lệnh sau:</p>
+<pre><code>mason upgrade -g</code></pre>
+
+<h2>Vô hiệu hóa phân tích Dart cho Mason</h2>
+
+<img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/boost-your-flutter-development-efficiency-with-mason/image/boost-your-flutter-development-efficiency-with-mason-image-5.png">
+
+<h3>Bước 1: Cập nhật <code>analysis_options.yaml</code></h3>
+<p>Thêm các dòng sau vào tệp <code>analysis_options.yaml</code> của bạn:</p>
+<pre><code>exclude:
+  - packages/core_mason/**</code></pre>
+
+<h3>Bước 2: Chạy lại phân tích Dart</h3>
+<img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/boost-your-flutter-development-efficiency-with-mason/image/boost-your-flutter-development-efficiency-with-mason-image-6.png">
+
+<h2>Tài nguyên cộng đồng</h2>
+<p>Dưới đây là một số mẫu Mason mà tôi thường sử dụng. Bạn có thể khám phá và sử dụng miễn phí vì chúng có sẵn trên BrickHub:</p>
+<ul>
+    <li><strong><a href="https://brickhub.dev/bricks/dr_base_model">dr_base_model</a></strong>: Mẫu cơ bản cho các kiểu dữ liệu nhận từ web.</li>
+    <li><strong><a href="https://brickhub.dev/bricks/dr_base_project">dr_base_project</a></strong>: Mẫu dự án cơ bản cho các dự án Flutter mà tôi sử dụng.</li>
+    <li><strong><a href="https://brickhub.dev/bricks/dr_bloc">dr_bloc</a></strong>: Mẫu BLoC hỗ trợ các tính năng phổ biến nhất.</li>
+    <li><strong><a href="https://brickhub.dev/bricks/dr_change_notifier">dr_change_notifier</a></strong>: Mẫu cho mã thông báo thay đổi (change notifier).</li>
+    <li><strong><a href="https://brickhub.dev/bricks/dr_clean_arch">dr_clean_arch</a></strong>: Mẫu kiến trúc sạch cho các tính năng dự án lớn.</li>
+    <li><strong><a href="https://brickhub.dev/bricks/dr_entity">dr_entity</a></strong>: Tạo các mô hình sử dụng <code>json_serializable</code>.</li>
+    <li><strong><a href="https://brickhub.dev/bricks/dr_enum">dr_enum</a></strong>: Tạo mẫu enum cho các trạng thái yêu cầu nhiều chức năng.</li>
+    <li><strong><a href="https://brickhub.dev/bricks/dr_freezed">dr_freezed</a></strong>: Tạo các mô hình sử dụng <code>freezed</code>.</li>
+</ul>
+
+<h2>Kết luận</h2>
+<p>Bằng cách tích hợp Mason vào quy trình phát triển Flutter, bạn có thể cải thiện đáng kể hiệu suất viết mã và duy trì sự nhất quán trong codebase của mình. Hướng dẫn này cung cấp cái nhìn tổng quan đầy đủ về cách thiết lập và sử dụng Mason, đảm bảo bạn có thể khai thác tối đa tiềm năng của công cụ này trong các dự án của mình.</p>
