@@ -1,0 +1,134 @@
+<h1>Bảo Trì và Mở Rộng Code Dễ Dàng Hơn Với Kiến Trúc Clean Architecture</h1>
+<h2>1. Những Vấn Đề Thường Gặp Khi Lập Trình Ứng Dụng</h2>
+<p>Khi phát triển phần mềm, đặc biệt là các dự án lớn, bạn có thể đối mặt với những vấn đề như:</p>
+<ul>
+    <li><strong>Khó khăn trong bảo trì</strong>: Khi ứng dụng có nhiều tính năng và lỗi xảy ra, việc sửa chữa có thể mất nhiều thời gian.</li>
+    <li><strong>Phát triển tính năng mới</strong>: Yêu cầu khách hàng có thể đòi hỏi thêm những tính năng đặc biệt đột xuất mà khi thêm mới cần không ảnh hưởng đến các tính năng hiện tại.</li>
+    <li><strong>Mở rộng quy mô dự án</strong>: Dự án lớn nhưng nguồn nhân lực hạn chế đòi hỏi cách tổ chức code tốt để làm việc hiệu quả.</li>
+    <li><strong>Hợp tác dễ dàng hơn</strong>: Code rõ ràng và có cấu trúc giúp các thành viên dễ dàng bàn giao hoặc phối hợp.</li>
+</ul>
+<hr />
+<h2>2. Kiến Trúc Clean Architecture</h2>
+<h3>Lợi Ích Chính</h3>
+<p>Kiến trúc <strong>Clean Architecture</strong> là giải pháp hữu hiệu giúp tổ chức code khoa học hơn, với những ưu điểm nổi bật như:</p>
+<ul>
+    <li><strong>Tăng tính linh hoạt</strong>: Các thành phần dễ thay đổi nhất được đặt ở lớp ngoài cùng, giúp việc thay đổi, thêm mới API hoặc truy xuất dữ liệu đơn giản hơn trong quá trình bảo trì.</li>
+    <li><strong>Quản lý module hiệu quả</strong>: Mỗi module được thiết kế riêng biệt, dễ bảo trì và mở rộng.</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/thumbnail/maintain-and-extend-code-easier-with-clean-architecture-thumbnail-1.png" alt="Sơ đồ Clean Architecture" /></p>
+<h3>Cấu Trúc Kiến Trúc</h3>
+<ul>
+    <li><strong>Domain (Cốt lõi)</strong>: Tầng sâu nhất, chứa logic nghiệp vụ chính, ít bị thay đổi.</li>
+    <li><strong>Presentation (Giao diện)</strong>: Tầng trung gian, xử lý dữ liệu từ domain và hiển thị lên UI.</li>
+    <li><strong>Data (Dữ liệu)</strong>: Tầng ngoài cùng, chịu trách nhiệm về API hoặc lưu trữ dữ liệu.</li>
+</ul>
+
+<p>Nguyên tắc chính:</p>
+<ol>
+    <li><strong>Tầng trong không phụ thuộc tầng ngoài</strong>: Domain không được lấy dữ liệu từ Presentation hoặc Data.</li>
+    <li><strong>Tầng ngoài có thể truy xuất tầng trong</strong>: Data có thể gọi đến Domain hoặc Presentation khi cần.</li>
+</ol>
+
+<h2>3. Triển Khai Clean Architecture Trong Flutter</h2>
+<h3>3.1. Cấu Trúc Thư Mục</h3>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-1.png" /></p>
+
+<p>Dự án Flutter thường được tổ chức như sau:</p>
+<pre><code class="language-plaintext">lib/
+  ├── features/          # Chứa các module chính
+  │     ├── module_1/    # Mỗi module có ba tầng: Data, Domain, Presentation
+  │     └── module_2/
+  ├── ...
+  └── main.dart          # Điểm bắt đầu của ứng dụng
+</code></pre>
+<h3>3.2. Công Cụ Tự Động Tạo Cấu Trúc</h3>
+<p>Việc tạo thủ công các thư mục và file có thể mất thời gian, đặc biệt khi khởi tạo module mới. Bạn có thể dùng <strong>Mason</strong> để tự động hóa:</p>
+<ul>
+    <li><strong>Mason</strong> giúp tự động tạo cấu trúc Clean Architecture nhanh chóng.</li>
+    <li>Tham khảo công cụ: <a href="https://wongcoupon.com/en/doc/help/flutter/boost-your-flutter-development-efficiency-with-mason">Boost your Flutter development efficiency with Mason</a>.</li>
+    <li>Bạn có thể tham khảo template: <a href="https://brickhub.dev/bricks/dr_clean_arch">dr_clean_arch trên Brickhub</a>.</li>
+</ul>
+<hr />
+<h3>3.3. Chi Tiết Các Tầng</h3>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-2.png"  /></p>
+
+<h4>Tầng Domain</h4>
+<p>Đây là tầng sâu nhất, chứa logic nghiệp vụ và ít bị thay đổi. Tầng này thường gồm:</p>
+<ul>
+    <li><strong>Entities</strong>: Các đối tượng thực thể. Tôi cũng có các mẫu code cho các thực thể này, hãy <a href="https://brickhub.dev/bricks/dr_entity">tham khảo</a> sủ dụng plugin json_serializable, và <a href="https://brickhub.dev/bricks/dr_freezed">tham khảo</a> sử dụng plugin freezed</li>
+    <li><strong>Use Cases</strong>: Các logic xử lý nghiệp vụ. Một số lập trình viên sẽ bỏ thư mục này vì cảm giác nó khá thừa thãi, theo quan điểm cá nhân tôi thì nó cần thiết khi có thể dễ dàng nhìn thấy các case mà người dùng sử dụng khi muốn truy xuất vào tầng data. Nó sẽ rất hữu ích khi kết hợp với các biểu đồ Diagram trong lập trình.</li>
+    <li><strong>Enums</strong>: Các giá trị liệt kê. Tôi sử dụng rất nhiều enums trong dự án vì sụ thuận tiện của nó. Bạn có thể tham khảo mẫu enum tôi tạo trên mason tại <a href="https://brickhub.dev/bricks/dr_enum">dr_enum</a>.</li>
+</ul>
+<h4>Tầng Presentation</h4>
+<p>Tầng này xử lý hiển thị giao diện và tương tác người dùng. Thường gồm:</p>
+<ul>
+    <li><strong>Views</strong>: Các màn hình chính và các phần con.</li>
+    <li><strong>View Models</strong>: Quản lý trạng thái của màn hình (state management) như <a href="https://pub.dev/packages/get">getx</a>, <a href="https://bloclibrary.dev/">bloc</a>, <a href="https://riverpod.dev/">riverpod</a>.</li>
+    <li><strong>Widgets</strong>: Các widget tái sử dụng. Nếu bạn muốn xây dựng widget để tái sử dụng trong các project khác thì hãy đưa nó vào package, tôi sẽ nói rõ hơn trong bài viết sắp tới.</li>
+</ul>
+<h4>Tầng Data</h4>
+<p>Tầng này dễ thay đổi nhất, chứa các repository để truy xuất dữ liệu. Bao gồm:</p>
+<ul>
+    <li><strong>Constants</strong>: Các hằng số dùng trong module.</li>
+    <li><strong>Repositories</strong>: Quản lý truy xuất dữ liệu từ API hoặc local.</li>
+</ul>
+<hr />
+<h2>4. Triển Khai Clean Architecture Trong Một Dự Án Với module là PAYMENT</h2>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-3.png"  /></p>
+
+<h4>Cấu Trúc Module PAYMENT</h4>
+<pre><code class="language-plaintext">lib/features/payment/
+  ├── data/
+  │     ├── repositories/    # Repository xử lý dữ liệu API
+  │     └── constants/       # Các hằng số liên quan đến payment
+  ├── domain/
+  │     ├── entities/        # Các thực thể dùng để xử lý dữ liệu
+  │     ├── usecases/        # Các use case chính (lấy bill, thanh toán)
+  │     └── enums/           # Các enum liên quan đến trạng thái thanh toán
+  └── presentation/
+        ├── views/           # Các màn hình giao diện
+        ├── view_models/     # Quản lý trạng thái màn hình bằng BLoC/GetX
+        └── widgets/         # Các widget tái sử dụng
+</code></pre>
+<h4>Chi Tiết Các Thành Phần</h4>
+<ol>
+
+    <li>
+        <p><strong>Domain</strong>:</p>
+        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-4.png"  /></p>
+
+        <ul>
+            <li><strong>Entities</strong>: Đối tượng mô tả hóa đơn, khách hàng.</li>
+            <li><strong>Use Cases</strong>: Các chức năng như xác thực thanh toán, lấy danh sách hóa đơn.</li>
+            <li><strong>Enums</strong>: Trạng thái thanh toán (chờ xử lý, thành công, thất bại).</li>
+        </ul>
+    </li>
+
+    <li>
+        <p><strong>Presentation</strong>:</p>
+        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-5.png"  /></p>
+
+        <ul>
+            <li><strong>Views</strong>: Hiển thị giao diện thanh toán.</li>
+            <li><strong>View Models</strong>: Sử dụng BLoC để quản lý trạng thái.</li>
+            <li><strong>Widgets</strong>: Các nút và biểu mẫu liên quan đến thanh toán.</li>
+        </ul>
+    </li>
+
+    <li>
+        <p><strong>Data</strong>:</p>
+        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-6.png"  /></p>
+
+        <ul>
+            <li><strong>Repositories</strong>: Gọi API thanh toán hoặc lưu dữ liệu offline.</li>
+            <li><strong>Constants</strong>: Cấu hình endpoint API.</li>
+        </ul>
+    </li>
+</ol>
+
+<h2>5. Tài Liệu Tham Khảo</h2>
+<ul>
+    <li><a href="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html">Learn more about Clean Architecture</a></li>
+    <li><a href="https://pub.dev/packages/flutter_clean_architecture#usage">Flutter Clean Architecture Usage</a></li>
+    <li><a href="https://medium.com/@yamen.abd98/clean-architecture-in-flutter-mvvm-bloc-dio-79b1615530e1">Clean Architecture with BLoC</a></li>
+</ul>
