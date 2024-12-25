@@ -1,0 +1,1 @@
+Cách xây dụng plugin với các function giao tiếp với native 

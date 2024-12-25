@@ -1,0 +1,133 @@
+<h1>Maintain and Extend Code Easily with Clean Architecture</h1>
+<h2>1. Common Issues in Application Development</h2>
+<p>When developing software, especially large-scale projects, you may face the following issues:</p>
+<ul>
+    <li><strong>Maintenance difficulties</strong>: Fixing bugs and maintaining functionality can become time-consuming as the application grows.</li>
+    <li><strong>Adding new features</strong>: Clients may request additional features that need to be integrated without impacting existing functionality.</li>
+    <li><strong>Scaling the project</strong>: Large projects with limited resources require a well-organized code structure for efficient development.</li>
+    <li><strong>Improved collaboration</strong>: A clear and structured codebase makes it easier for team members to collaborate and transition responsibilities.</li>
+</ul>
+<hr />
+<h2>2. Clean Architecture</h2>
+<h3>Key Benefits</h3>
+<p><strong>Clean Architecture</strong> provides a systematic way to organize code, offering benefits such as:</p>
+<ul>
+    <li><strong>Increased flexibility</strong>: The most changeable components are placed at the outer layer, simplifying API updates or data handling during maintenance.</li>
+    <li><strong>Efficient module management</strong>: Each module is designed to be independent, making it easier to maintain and extend.</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/thumbnail/maintain-and-extend-code-easier-with-clean-architecture-thumbnail-1.png" alt="Clean Architecture Diagram" /></p>
+<h3>Architecture Structure</h3>
+<ul>
+    <li><strong>Domain (Core)</strong>: The innermost layer containing the business logic, which changes infrequently.</li>
+    <li><strong>Presentation (UI)</strong>: The middle layer responsible for handling data from the domain and rendering it to the user interface.</li>
+    <li><strong>Data</strong>: The outermost layer responsible for API communication or data storage.</li>
+</ul>
+
+<p>Main principles:</p>
+<ol>
+    <li><strong>Inner layers must not depend on outer layers</strong>: Domain should not directly access Presentation or Data layers.</li>
+    <li><strong>Outer layers can interact with inner layers</strong>: Data can call Domain or Presentation as needed.</li>
+</ol>
+
+<h2>3. Implementing Clean Architecture in Flutter</h2>
+<h3>3.1. Folder Structure</h3>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-1.png" /></p>
+
+<p>A Flutter project is typically organized as follows:</p>
+<pre><code class="language-plaintext">lib/
+  ├── features/          # Contains the main modules
+  │     ├── module_1/    # Each module includes three layers: Data, Domain, Presentation
+  │     └── module_2/
+  ├── ...
+  └── main.dart          # Application entry point
+</code></pre>
+<h3>3.2. Automating Structure Creation</h3>
+<p>Manually creating folders and files can be time-consuming, especially when setting up a new module. You can use <strong>Mason</strong> for automation:</p>
+<ul>
+    <li><strong>Mason</strong> helps generate Clean Architecture structures quickly.</li>
+    <li>Refer to the tool: <a href="https://wongcoupon.com/en/doc/help/flutter/boost-your-flutter-development-efficiency-with-mason">Boost your Flutter development efficiency with Mason</a>.</li>
+    <li>Check out the template: <a href="https://brickhub.dev/bricks/dr_clean_arch">dr_clean_arch on Brickhub</a>.</li>
+</ul>
+<hr />
+<h3>3.3. Layer Details</h3>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-2.png"  /></p>
+
+<h4>Domain Layer</h4>
+<p>This is the innermost layer, containing the business logic. It usually consists of:</p>
+<ul>
+    <li><strong>Entities</strong>: Core objects that represent data models. Examples include plugins like <a href="https://brickhub.dev/bricks/dr_entity">dr_entity</a> using `json_serializable` and <a href="https://brickhub.dev/bricks/dr_freezed">dr_freezed</a>.</li>
+    <li><strong>Use Cases</strong>: Business logic functions. These highlight how data flows in and out of the data layer, making diagrams or workflows easier to manage.</li>
+    <li><strong>Enums</strong>: Enums simplify state management. Check out templates like <a href="https://brickhub.dev/bricks/dr_enum">dr_enum</a>.</li>
+</ul>
+<h4>Presentation Layer</h4>
+<p>This layer manages UI rendering and user interactions. It typically includes:</p>
+<ul>
+    <li><strong>Views</strong>: Screens and their components.</li>
+    <li><strong>View Models</strong>: State management solutions using <a href="https://pub.dev/packages/get">GetX</a>, <a href="https://bloclibrary.dev/">BLoC</a>, or <a href="https://riverpod.dev/">Riverpod</a>.</li>
+    <li><strong>Widgets</strong>: Reusable UI components. For reusable widgets across projects, consider placing them in packages.</li>
+</ul>
+<h4>Data Layer</h4>
+<p>This layer handles APIs or data storage. It includes:</p>
+<ul>
+    <li><strong>Constants</strong>: Module-specific constants.</li>
+    <li><strong>Repositories</strong>: Manage API calls and local data handling.</li>
+</ul>
+<hr />
+<h2>4. Implementing Clean Architecture for the PAYMENT Module</h2>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-3.png"  /></p>
+
+<h4>PAYMENT Module Structure</h4>
+<pre><code class="language-plaintext">lib/features/payment/
+  ├── data/
+  │     ├── repositories/    # Repository for API handling
+  │     └── constants/       # Constants related to payments
+  ├── domain/
+  │     ├── entities/        # Entities for data processing
+  │     ├── usecases/        # Core use cases (fetch bill, process payments)
+  │     └── enums/           # Enums for payment status
+  └── presentation/
+        ├── views/           # UI screens
+        ├── view_models/     # State management with BLoC/GetX
+        └── widgets/         # Reusable UI components
+</code></pre>
+<h4>Component Details</h4>
+<ol>
+    <li>
+        <p><strong>Domain</strong>:</p>
+        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-4.png"  /></p>
+
+        <ul>
+            <li><strong>Entities</strong>: Represent invoice and customer objects.</li>
+            <li><strong>Use Cases</strong>: Functionalities like payment validation and fetching invoice lists.</li>
+            <li><strong>Enums</strong>: Payment states (pending, success, failure).</li>
+        </ul>
+    </li>
+
+    <li>
+        <p><strong>Presentation</strong>:</p>
+        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-5.png"  /></p>
+
+        <ul>
+            <li><strong>Views</strong>: Display payment UI.</li>
+            <li><strong>View Models</strong>: State management with BLoC.</li>
+            <li><strong>Widgets</strong>: Payment-related buttons and forms.</li>
+        </ul>
+    </li>
+
+    <li>
+        <p><strong>Data</strong>:</p>
+        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-6.png"  /></p>
+
+        <ul>
+            <li><strong>Repositories</strong>: Handle payment APIs or offline data.</li>
+            <li><strong>Constants</strong>: API endpoint configurations.</li>
+        </ul>
+    </li>
+</ol>
+
+<h2>5. References</h2>
+<ul>
+    <li><a href="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html">Learn more about Clean Architecture</a></li>
+    <li><a href="https://pub.dev/packages/flutter_clean_architecture#usage">Flutter Clean Architecture Usage</a></li>
+    <li><a href="https://medium.com/@yamen.abd98/clean-architecture-in-flutter-mvvm-bloc-dio-79b1615530e1">Clean Architecture with BLoC</a></li>
+</ul>
