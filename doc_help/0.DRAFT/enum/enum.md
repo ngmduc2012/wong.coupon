@@ -112,7 +112,7 @@ static ({StateEnum? getEnum , String? string})? getByCode(int? code){
 }
 ```
 
-5. Ứng dụng mason rút ngắm thời gian tạo enum 
+5. Ứng dụng mason rút ngắn thời gian tạo enum 
 Với những sự hữu dụng như trên, việc dùng đầy đủ các hàm enum sẽ giúp chúng ta code nhanh hơn và clean code hơn. 
 Để tạo 1 form mẫu code sẵn cho các enum của bản thân, hãy tham khảo mason. (nếu bạn chưa biết gì về mason hãy tham khảo https://wongcoupon.com/en/doc/help/flutter/boost-your-flutter-development-efficiency-with-mason)
 Bạn có thể tham khảo mẫu enum của tôi để tạo cho mình 1 mẫu enum phù hợp với bạn và đồng nghiệp của bạn dr_enum https://brickhub.dev/bricks/dr_enum
