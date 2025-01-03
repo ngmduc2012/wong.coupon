@@ -15,7 +15,7 @@
     <li><strong>Tăng tính linh hoạt</strong>: Các thành phần dễ thay đổi nhất được đặt ở lớp ngoài cùng, giúp việc thay đổi, thêm mới API hoặc truy xuất dữ liệu đơn giản hơn trong quá trình bảo trì.</li>
     <li><strong>Quản lý module hiệu quả</strong>: Mỗi module được thiết kế riêng biệt, dễ bảo trì và mở rộng.</li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/thumbnail/maintain-and-extend-code-easier-with-clean-architecture-thumbnail-1.png" alt="Sơ đồ Clean Architecture" /></p>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/maintain-and-extend-code-easier-with-clean-architecture/thumbnail/maintain-and-extend-code-easier-with-clean-architecture-thumbnail-1.png" alt="Sơ đồ Clean Architecture" /></p>
 <h3>Cấu Trúc Kiến Trúc</h3>
 <ul>
     <li><strong>Domain (Cốt lõi)</strong>: Tầng sâu nhất, chứa logic nghiệp vụ chính, ít bị thay đổi.</li>
@@ -31,7 +31,7 @@
 
 <h2>3. Triển Khai Clean Architecture Trong Flutter</h2>
 <h3>3.1. Cấu Trúc Thư Mục</h3>
-<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-1.png" /></p>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-1.png" /></p>
 
 <p>Dự án Flutter thường được tổ chức như sau:</p>
 <pre><code class="language-plaintext">lib/
@@ -50,7 +50,7 @@
 </ul>
 <hr />
 <h3>3.3. Chi Tiết Các Tầng</h3>
-<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-2.png"  /></p>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-2.png"  /></p>
 
 <h4>Tầng Domain</h4>
 <p>Đây là tầng sâu nhất, chứa logic nghiệp vụ và ít bị thay đổi. Tầng này thường gồm:</p>
@@ -74,7 +74,7 @@
 </ul>
 <hr />
 <h2>4. Triển Khai Clean Architecture Trong Một Dự Án Với module là PAYMENT</h2>
-<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-3.png"  /></p>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-3.png"  /></p>
 
 <h4>Cấu Trúc Module PAYMENT</h4>
 <pre><code class="language-plaintext">lib/features/payment/
@@ -95,7 +95,7 @@
 
     <li>
         <p><strong>Domain</strong>:</p>
-        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-4.png"  /></p>
+        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-4.png"  /></p>
 
         <ul>
             <li><strong>Entities</strong>: Đối tượng mô tả hóa đơn, khách hàng.</li>
@@ -106,7 +106,7 @@
 
     <li>
         <p><strong>Presentation</strong>:</p>
-        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-5.png"  /></p>
+        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-5.png"  /></p>
 
         <ul>
             <li><strong>Views</strong>: Hiển thị giao diện thanh toán.</li>
@@ -117,7 +117,7 @@
 
     <li>
         <p><strong>Data</strong>:</p>
-        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-6.png"  /></p>
+        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-6.png"  /></p>
 
         <ul>
             <li><strong>Repositories</strong>: Gọi API thanh toán hoặc lưu dữ liệu offline.</li>

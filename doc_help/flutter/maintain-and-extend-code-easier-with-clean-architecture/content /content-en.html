@@ -15,7 +15,7 @@
     <li><strong>Increased flexibility</strong>: The most changeable components are placed at the outer layer, simplifying API updates or data handling during maintenance.</li>
     <li><strong>Efficient module management</strong>: Each module is designed to be independent, making it easier to maintain and extend.</li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/thumbnail/maintain-and-extend-code-easier-with-clean-architecture-thumbnail-1.png" alt="Clean Architecture Diagram" /></p>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/maintain-and-extend-code-easier-with-clean-architecture/thumbnail/maintain-and-extend-code-easier-with-clean-architecture-thumbnail-1.png" alt="Clean Architecture Diagram" /></p>
 <h3>Architecture Structure</h3>
 <ul>
     <li><strong>Domain (Core)</strong>: The innermost layer containing the business logic, which changes infrequently.</li>
@@ -31,7 +31,7 @@
 
 <h2>3. Implementing Clean Architecture in Flutter</h2>
 <h3>3.1. Folder Structure</h3>
-<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-1.png" /></p>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-1.png" /></p>
 
 <p>A Flutter project is typically organized as follows:</p>
 <pre><code class="language-plaintext">lib/
@@ -50,7 +50,7 @@
 </ul>
 <hr />
 <h3>3.3. Layer Details</h3>
-<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-2.png"  /></p>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-2.png"  /></p>
 
 <h4>Domain Layer</h4>
 <p>This is the innermost layer, containing the business logic. It usually consists of:</p>
@@ -74,7 +74,7 @@
 </ul>
 <hr />
 <h2>4. Implementing Clean Architecture for the PAYMENT Module</h2>
-<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-3.png"  /></p>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-3.png"  /></p>
 
 <h4>PAYMENT Module Structure</h4>
 <pre><code class="language-plaintext">lib/features/payment/
@@ -94,7 +94,7 @@
 <ol>
     <li>
         <p><strong>Domain</strong>:</p>
-        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-4.png"  /></p>
+        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-4.png"  /></p>
 
         <ul>
             <li><strong>Entities</strong>: Represent invoice and customer objects.</li>
@@ -105,7 +105,7 @@
 
     <li>
         <p><strong>Presentation</strong>:</p>
-        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-5.png"  /></p>
+        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-5.png"  /></p>
 
         <ul>
             <li><strong>Views</strong>: Display payment UI.</li>
@@ -116,7 +116,7 @@
 
     <li>
         <p><strong>Data</strong>:</p>
-        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-6.png"  /></p>
+        <p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/maintain-and-extend-code-easier-with-clean-architecture/image/maintain-and-extend-code-easier-with-clean-architecture-image-6.png"  /></p>
 
         <ul>
             <li><strong>Repositories</strong>: Handle payment APIs or offline data.</li>
