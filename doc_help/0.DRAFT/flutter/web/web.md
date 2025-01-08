@@ -17,3 +17,5 @@ Bạn có thể tham khảo bài viết về responsive của tôi tại  *LINK*
 
 - Tạo đường dẫn tuỳ chỉnh cho web, hiện tại tôi đang sử dụng go_router https://pub.dev/packages/go_router để tạo các đừng dẫn cho web. 
 - SEO cũng là 1 vấn đề của flutter, hiện tại vẫn chưa có giải pháp hiệu quả cho SEO 
+
+Tuyệt đối không được dùng src.dart file ko cần thiết thì ko đc import , tôi giảm từ 8s loading web xuống 5s, khi bỏ src.dart, nó chỉu hiệu quả với app mobile 
