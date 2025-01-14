@@ -19,3 +19,4 @@ Bạn có thể tham khảo bài viết về responsive của tôi tại  *LINK*
 - SEO cũng là 1 vấn đề của flutter, hiện tại vẫn chưa có giải pháp hiệu quả cho SEO 
 
 Tuyệt đối không được dùng src.dart file ko cần thiết thì ko đc import , tôi giảm từ 8s loading web xuống 5s, khi bỏ src.dart, nó chỉu hiệu quả với app mobile 
+Tốc độ tải web sau khi build release giảm từ 6s xuống 5s khi tải trang mới. 
