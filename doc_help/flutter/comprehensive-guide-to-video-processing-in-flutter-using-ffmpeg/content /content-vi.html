@@ -1,0 +1,215 @@
+<h1>Hướng Dẫn Xử Lý Video với FFmpeg Flutter</h1>
+<img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/comprehensive-guide-to-video-processing-in-flutter-using-ffmpeg/thumbnail/comprehensive-guide-to-video-processing-in-flutter-using-ffmpeg-thumbnail-1.png" >
+
+<p><strong>Xử lý video trên Flutter với tốc độ nhanh và hiệu năng tối ưu nhất</strong></p>
+<p>Xử lý video là một trong những công việc tốn nhiều tài nguyên, đặc biệt là RAM và CPU của thiết bị. Nếu không được tối ưu hóa, ứng dụng của bạn dễ gặp sự cố crash. Trong quá trình phát triển, tôi đã gặp vấn đề khi sử dụng các thư viện bên thứ ba từ Pub.dev để:</p>
+<ul>
+    <li>Chuyển video thành GIF.</li>
+    <li>Chuyển đổi hàng loạt ảnh thành video.</li>
+</ul>
+<p>Những thư viện này thường mất nhiều thời gian xử lý và cho ra kết quả không đạt chất lượng mong muốn. Tuy nhiên, với <strong>FFmpeg</strong>, bạn có thể giải quyết những vấn đề trên một cách hiệu quả.</p>
+<h2>1. Giới Thiệu FFmpeg</h2>
+<p><a href="https://www.ffmpeg.org/">FFmpeg</a> là thư viện mã nguồn mở mạnh mẽ chuyên dùng để xử lý âm thanh và video. FFmpeg hỗ trợ rất nhiều tác vụ như:</p>
+<ul>
+    <li>Chuyển đổi định dạng (MP4, MKV, MP3, v.v.).</li>
+    <li>Xử lý video và âm thanh: Thêm watermark, cắt ghép, nén chất lượng.</li>
+    <li>Tạo GIF từ video.</li>
+    <li>Streaming và tối ưu hóa media.</li>
+</ul>
+<p>Bộ công cụ <a href="https://pub.dev/packages/ffmpeg_kit_flutter_full_gpl">ffmpeg_kit_flutter_full_gpl</a> mang lại đầy đủ tính năng của FFmpeg trên Flutter. Ngoài ra, bạn có thể tham khảo các gói khác tại <a href="https://github.com/arthenica/ffmpeg-kit/wiki/Packages">FFmpeg Kit Packages</a>.</p>
+<h2>2. Cài Đặt Bộ Công Cụ FFmpeg</h2>
+<h3>Cài Đặt</h3>
+<p>Thêm dependency vào tệp <code>pubspec.yaml</code>:</p>
+<pre><code class="language-yaml">ffmpeg_kit_flutter_full_gpl: ^latest_version
+</code></pre>
+<p>Chạy lệnh:</p>
+<pre><code class="language-bash">flutter pub get
+</code></pre>
+<h3>Cấu Hình Android</h3>
+<p>Thêm vào tệp <code>android/app/build.gradle</code>:</p>
+<pre><code class="language-gradle">defaultConfig {
+    ...
+    minSdk = 24
+    ...
+}
+</code></pre>
+<p>Cập nhật quyền trong <code>AndroidManifest.xml</code>:</p>
+<pre><code class="language-xml">&lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;/&gt;
+&lt;uses-permission android:name=&quot;android.permission.READ_EXTERNAL_STORAGE&quot;/&gt;
+&lt;uses-permission android:name=&quot;android.permission.READ_MEDIA_IMAGES&quot;/&gt;
+</code></pre>
+<h3>Cấu Hình iOS</h3>
+<p>Thêm vào tệp <code>Info.plist</code>:</p>
+<pre><code class="language-xml">&lt;key&gt;NSPhotoLibraryUsageDescription&lt;/key&gt;
+&lt;string&gt;We need access to your photo library to pick files.&lt;/string&gt;
+&lt;key&gt;NSDocumentDirectoryUsageDescription&lt;/key&gt;
+&lt;string&gt;We need access to your documents to pick files.&lt;/string&gt;
+&lt;key&gt;UIFileSharingEnabled&lt;/key&gt;
+&lt;true/&gt;
+&lt;key&gt;LSSupportsOpeningDocumentsInPlace&lt;/key&gt;
+&lt;true/&gt;
+</code></pre>
+<p>Đảm bảo tệp <code>ios/Podfile</code> có phiên bản nền tảng:</p>
+<pre><code class="language-ruby">platform :ios, '13.0'
+</code></pre>
+<h2>3. Chuyển Loạt Ảnh Thành Video</h2>
+<p>Dưới đây là một hàm chuyển đổi:</p>
+<pre><code class="language-dart">Future&lt;({bool isSuccess, String message})&gt; convertImageDirectoryToVideo({
+  required String imagesPath,
+  required String outputVideoPath,
+  int framerate = 24,
+  int? fps,
+  int? quality,
+}) async {
+  var isSuccess = false;
+  var message = &quot;&quot;;
+
+  final command = '-framerate $framerate -i $imagesPath/%d.png '
+      '${fps != null ? &quot;-r $fps&quot; : &quot;&quot;} '
+      '${quality != null ? &quot;-crf $quality -preset slow&quot; : &quot;&quot;} '
+      '-vf &quot;scale=trunc(iw/2)*2:trunc(ih/2)*2&quot; '
+      '-c:v libx264 -pix_fmt yuv420p -movflags +faststart $outputVideoPath';
+
+  await FFmpegKit.execute(command).then((session) async {
+    final returnCode = await session.getReturnCode();
+
+    if (returnCode?.isValueSuccess() ?? false) {
+      message = 'Video conversion successful!';
+      isSuccess = true;
+    } else {
+      final output = await session.getOutput();
+      message = 'Video conversion failed: $output';
+    }
+  });
+
+  return (isSuccess: isSuccess, message: message);
+}
+</code></pre>
+<p>Ví dụ sử dụng:</p>
+<pre><code class="language-dart">final result = convertImageDirectoryToVideo(
+  imagesPath: &quot;path/to/images&quot;,
+  outputVideoPath: &quot;path/to/videoOutput.mp4&quot;,
+);
+</code></pre>
+<p>Đảm bảo rằng thư mục <code>path/to/images</code> chứa các hình ảnh được đặt tên bằng số tự nhiên và có định dạng <code>.png</code>, như minh họa trong ví dụ:</p>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/comprehensive-guide-to-video-processing-in-flutter-using-ffmpeg/image/comprehensive-guide-to-video-processing-in-flutter-using-ffmpeg-image-1.jpeg" alt="Hình minh họa" /></p>
+<p>Tệp <code>path/to/videoOutput.mp4</code> phải có tên duy nhất để tránh sảy ra lỗi trong quá trình xử lý của Ffmpeg.</p>
+<h2>4. Thêm Watermark Vào Video</h2>
+<p>Hàm thêm watermark:</p>
+<pre><code class="language-dart">Future&lt;({bool isSuccess, String message})&gt; addWatermarkToVideo({
+  required String videoPath,
+  required String watermarkPath,
+  required String outputPath,
+  required int x,
+  required int y,
+  int? width,
+  int? height,
+}) async {
+  var isSuccess = false;
+  var message = &quot;&quot;;
+
+  final scaleFilter = (width != null &amp;&amp; height != null)
+      ? &quot;[1:v]scale=$width:$height[wm];[0:v][wm]overlay=$x:$y&quot;
+      : &quot;overlay=$x:$y&quot;;
+  final command =
+      '-i $videoPath -i $watermarkPath -filter_complex &quot;$scaleFilter&quot; -codec:a copy $outputPath';
+
+  await FFmpegKit.execute(command).then((session) async {
+    final returnCode = await session.getReturnCode();
+    if (returnCode?.isValueSuccess() ?? false) {
+      message = &quot;Watermark added successfully!&quot;;
+      isSuccess = true;
+    } else {
+      message = &quot;Failed to add watermark.&quot;;
+    }
+  });
+
+  return (isSuccess: isSuccess, message: message);
+}
+</code></pre>
+<p>Ví dụ sử dụng:</p>
+<pre><code class="language-dart">final result = addWatermarkToVideo(
+  videoPath: videoPath!,
+  watermarkPath: watermarkPath!,
+  outputPath: outputPath,
+  x: 20,
+  y: 30,
+  width: 200,
+  height: 200,
+);
+</code></pre>
+<h2>5. Giảm Chất Lượng Video</h2>
+<p>Hàm giảm chất lượng:</p>
+<pre><code class="language-dart">Future&lt;({bool isSuccess, String message})&gt; reduceVideoQualityByPercentage({
+  required String inputPath,
+  required String outputPath,
+  required double qualityPercentage
+}) async {
+  final crfValue = (51 - 18) * (1 - qualityPercentage / 100) + 18;
+  final command =
+      '-i $inputPath -crf ${crfValue.toInt()} -preset fast -codec:a copy $outputPath';
+
+  var isSuccess = false;
+  var message = &quot;&quot;;
+  await FFmpegKit.execute(command).then((session) async {
+    final returnCode = await session.getReturnCode();
+    if (returnCode?.isValueSuccess() ?? false) {
+      message = &quot;Quality reduced successfully!&quot;;
+      isSuccess = true;
+    } else {
+      message = &quot;Failed to reduce quality.&quot;;
+    }
+  });
+
+  return (isSuccess: isSuccess, message: message);
+}
+</code></pre>
+<p>Ví dụ:</p>
+<pre><code class="language-dart">final result = reduceVideoQualityByPercentage(
+  inputPath: videoPath!,
+  outputPath: outputPath,
+  qualityPercentage: 50,
+);
+</code></pre>
+<h2>6. Tạo GIF Từ Video</h2>
+<p>Hàm tạo GIF:</p>
+<pre><code class="language-dart">Future&lt;({bool isSuccess, String message})&gt; createGifFromVideo({
+  required String inputPath,
+  required String outputPath,
+  required double fps,
+  required int quality,
+  int scale = 320,
+}) async {
+  final command =
+      '-i $inputPath -vf &quot;fps=$fps,scale=$scale:-1:flags=lanczos&quot; -q:v $quality $outputPath';
+
+  var isSuccess = false;
+  var message = &quot;&quot;;
+  await FFmpegKit.execute(command).then((session) async {
+    final returnCode = await session.getReturnCode();
+    if (returnCode?.isValueSuccess() ?? false) {
+      message = &quot;GIF created successfully!&quot;;
+      isSuccess = true;
+    } else {
+      message = &quot;Failed to create GIF.&quot;;
+    }
+  });
+
+  return (isSuccess: isSuccess, message: message);
+}
+</code></pre>
+<p>Ví dụ sử dụng:</p>
+<pre><code class="language-dart">final result = createGifFromVideo(
+  inputPath: videoPath!,
+  outputPath: pathGif,
+  fps: 10,
+  quality: 10,
+  scale: 500,
+);
+</code></pre>
+<p>Kích thước scale càng lớn thì chất lượng gif càng sát với chất lượng gốc của video.</p>
+<p>Hãy chú ý đến RAM khi sử dụng thư viện này.
+    Nếu bạn muốn sử dụng trực tiếp plugin, có thể tải tại <a href="https://pub.dev/packages/my_maker_video">https://pub.dev/packages/my_maker_video</a>.</p>
+<a href="https://buymeacoffee.com/ducmng12g" target="_blank"><img align="center" src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="49" width="208"></a>
+
+

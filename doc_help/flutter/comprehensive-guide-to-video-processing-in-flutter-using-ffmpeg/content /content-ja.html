@@ -1,64 +1,64 @@
-<h1>Comprehensive Guide to Video Processing with FFmpeg on Flutter</h1>
+<h1>FlutterでFFmpegを使用したビデオ処理の包括的ガイド</h1>
 <img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/comprehensive-guide-to-video-processing-in-flutter-using-ffmpeg/thumbnail/comprehensive-guide-to-video-processing-in-flutter-using-ffmpeg-thumbnail-1.png" >
 
-<p><strong>Process videos on Flutter with optimal speed and performance</strong></p>
-<p>Video processing is one of the most resource-intensive tasks, especially for a device's RAM and CPU. Without proper optimization, your app might crash. During development, I faced issues using third-party libraries from Pub.dev for tasks such as:</p>
+<p><strong>最適な速度とパフォーマンスでFlutterでビデオを処理する</strong></p>
+<p>ビデオ処理は最もリソース集約型の作業の1つであり、特にデバイスのRAMとCPUに負荷がかかります。適切な最適化なしでは、アプリがクラッシュする可能性があります。開発中に、Pub.devのサードパーティライブラリを使用して次のタスクで問題が発生しました:</p>
 <ul>
-    <li>Converting videos to GIFs.</li>
-    <li>Transforming multiple images into a video.</li>
+  <li>ビデオをGIFに変換する。</li>
+  <li>複数の画像をビデオに変換する。</li>
 </ul>
-<p>These libraries often take a long time to process and produce results that fail to meet quality expectations. However, with <strong>FFmpeg</strong>, you can handle these tasks efficiently.</p>
+<p>これらのライブラリは、処理に時間がかかることが多く、品質の期待に応える結果を得ることができません。しかし、<strong>FFmpeg</strong>を使用すれば、これらのタスクを効率的に処理できます。</p>
 
-<h2>1. Introduction to FFmpeg</h2>
-<p><a href="https://www.ffmpeg.org/">FFmpeg</a> is a powerful open-source library designed for processing audio and video. It supports numerous tasks such as:</p>
+<h2>1. FFmpegの紹介</h2>
+<p><a href="https://www.ffmpeg.org/">FFmpeg</a>は、オーディオおよびビデオの処理を目的とした強力なオープンソースライブラリです。次のような多数のタスクをサポートしています:</p>
 <ul>
-    <li>Format conversion (MP4, MKV, MP3).</li>
-    <li>Video and audio processing: adding watermarks, trimming, compressing quality.</li>
-    <li>Creating GIFs from videos.</li>
-    <li>Streaming and optimizing media files.</li>
+  <li>フォーマット変換 (例：MP4、MKV、MP3)。</li>
+  <li>ビデオおよびオーディオの処理: ウォーターマークの追加、トリミング、品質の圧縮。</li>
+  <li>ビデオからGIFの作成。</li>
+  <li>メディアファイルのストリーミングと最適化。</li>
 </ul>
-<p>The <a href="https://pub.dev/packages/ffmpeg_kit_flutter_full_gpl">ffmpeg_kit_flutter_full_gpl</a> package brings FFmpeg's full functionality to Flutter. Additionally, you can explore other packages at <a href="https://github.com/arthenica/ffmpeg-kit/wiki/Packages">FFmpeg Kit Packages</a>.</p>
+<p><a href="https://pub.dev/packages/ffmpeg_kit_flutter_full_gpl">ffmpeg_kit_flutter_full_gpl</a>パッケージは、FFmpegの完全な機能をFlutterに提供します。さらに、<a href="https://github.com/arthenica/ffmpeg-kit/wiki/Packages">FFmpeg Kit Packages</a>で他のパッケージを調べることができます。</p>
 
-<h2>2. Setting Up the FFmpeg Toolkit</h2>
-<h3>Installation</h3>
-<p>Add the dependency to your <code>pubspec.yaml</code> file:</p>
+<h2>2. FFmpegツールキットの設定</h2>
+<h3>インストール</h3>
+<p><code>pubspec.yaml</code>ファイルに依存関係を追加します:</p>
 <pre><code class="language-yaml">ffmpeg_kit_flutter_full_gpl: ^latest_version
 </code></pre>
-<p>Run the command:</p>
+<p>コマンドを実行します:</p>
 <pre><code class="language-bash">flutter pub get
 </code></pre>
 
-<h3>Android Configuration</h3>
-<p>Update the <code>android/app/build.gradle</code> file:</p>
+<h3>Androidの設定</h3>
+<p><code>android/app/build.gradle</code>ファイルを更新します:</p>
 <pre><code class="language-gradle">defaultConfig {
     ...
     minSdk = 24
     ...
 }
 </code></pre>
-<p>Update permissions in <code>AndroidManifest.xml</code>:</p>
+<p><code>AndroidManifest.xml</code>の権限を更新します:</p>
 <pre><code class="language-xml">&lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/&gt;
 &lt;uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/&gt;
 &lt;uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/&gt;
 </code></pre>
 
-<h3>iOS Configuration</h3>
-<p>Add the following to your <code>Info.plist</code>:</p>
+<h3>iOSの設定</h3>
+<p><code>Info.plist</code>に以下を追加します:</p>
 <pre><code class="language-xml">&lt;key&gt;NSPhotoLibraryUsageDescription&lt;/key&gt;
-&lt;string&gt;We need access to your photo library to pick files.&lt;/string&gt;
+&lt;string&gt;ファイルを選択するために、写真ライブラリへのアクセスが必要です。&lt;/string&gt;
 &lt;key&gt;NSDocumentDirectoryUsageDescription&lt;/key&gt;
-&lt;string&gt;We need access to your documents to pick files.&lt;/string&gt;
+&lt;string&gt;ファイルを選択するために、ドキュメントへのアクセスが必要です。&lt;/string&gt;
 &lt;key&gt;UIFileSharingEnabled&lt;/key&gt;
 &lt;true/&gt;
 &lt;key&gt;LSSupportsOpeningDocumentsInPlace&lt;/key&gt;
 &lt;true/&gt;
 </code></pre>
-<p>Ensure the <code>ios/Podfile</code> has the platform version:</p>
+<p><code>ios/Podfile</code>にプラットフォームバージョンが含まれていることを確認します:</p>
 <pre><code class="language-ruby">platform :ios, '13.0'
 </code></pre>
 
-<h2>3. Convert a Series of Images to Video</h2>
-<p>Here is a function for conversion:</p>
+<h2>3. 一連の画像をビデオに変換する</h2>
+<p>変換用の関数はこちらです:</p>
 <pre><code class="language-dart">Future&lt;({bool isSuccess, String message})&gt; convertImageDirectoryToVideo({
   required String imagesPath,
   required String outputVideoPath,
@@ -79,29 +79,29 @@
     final returnCode = await session.getReturnCode();
 
     if (returnCode?.isValueSuccess() ?? false) {
-      message = 'Video conversion successful!';
+      message = 'ビデオ変換が成功しました！';
       isSuccess = true;
     } else {
       final output = await session.getOutput();
-      message = 'Video conversion failed: $output';
+      message = 'ビデオ変換に失敗しました: $output';
     }
   });
 
   return (isSuccess: isSuccess, message: message);
 }
 </code></pre>
-<p>Usage example:</p>
+<p>使用例:</p>
 <pre><code class="language-dart">final result = convertImageDirectoryToVideo(
   imagesPath: "path/to/images",
   outputVideoPath: "path/to/videoOutput.mp4",
 );
 </code></pre>
-<p>Ensure the <code>path/to/images</code> directory contains images named with natural numbers and in <code>.png</code> format, as shown below:</p>
-<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/comprehensive-guide-to-video-processing-in-flutter-using-ffmpeg/image/comprehensive-guide-to-video-processing-in-flutter-using-ffmpeg-image-1.jpeg" alt="Example Image" /></p>
-<p>The file <code>path/to/videoOutput.mp4</code> must have a unique name to avoid errors during Ffmpeg processing.</p>
+<p><code>path/to/images</code>ディレクトリに自然数で名前が付けられた画像が含まれており、<code>.png</code>フォーマットであることを確認してください。以下のように:</p>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/comprehensive-guide-to-video-processing-in-flutter-using-ffmpeg/image/comprehensive-guide-to-video-processing-in-flutter-using-ffmpeg-image-1.jpeg" alt="例示画像" /></p>
+<p><code>path/to/videoOutput.mp4</code>ファイル名は一意である必要があります。これにより、Ffmpeg処理中のエラーが防止されます。</p>
 
-<h2>4. Add Watermark to Video</h2>
-<p>Function to add a watermark:</p>
+<h2>4. ビデオにウォーターマークを追加</h2>
+<p>ウォーターマークを追加する関数:</p>
 <pre><code class="language-dart">Future&lt;({bool isSuccess, String message})&gt; addWatermarkToVideo({
   required String videoPath,
   required String watermarkPath,
@@ -123,17 +123,17 @@
   await FFmpegKit.execute(command).then((session) async {
     final returnCode = await session.getReturnCode();
     if (returnCode?.isValueSuccess() ?? false) {
-      message = "Watermark added successfully!";
+      message = "ウォーターマークが成功しました！";
       isSuccess = true;
     } else {
-      message = "Failed to add watermark.";
+      message = "ウォーターマークの追加に失敗しました。";
     }
   });
 
   return (isSuccess: isSuccess, message: message);
 }
 </code></pre>
-<p>Usage example:</p>
+<p>使用例:</p>
 <pre><code class="language-dart">final result = addWatermarkToVideo(
   videoPath: videoPath!,
   watermarkPath: watermarkPath!,
@@ -145,8 +145,8 @@
 );
 </code></pre>
 
-<h2>5. Reduce Video Quality</h2>
-<p>Function to reduce quality:</p>
+<h2>5. ビデオの品質を下げる</h2>
+<p>品質を下げる関数:</p>
 <pre><code class="language-dart">Future&lt;({bool isSuccess, String message})&gt; reduceVideoQualityByPercentage({
   required String inputPath,
   required String outputPath,
@@ -161,17 +161,17 @@
   await FFmpegKit.execute(command).then((session) async {
     final returnCode = await session.getReturnCode();
     if (returnCode?.isValueSuccess() ?? false) {
-      message = "Quality reduced successfully!";
+      message = "品質が正常に低下しました!";
       isSuccess = true;
     } else {
-      message = "Failed to reduce quality.";
+      message = "品質の低下に失敗しました。";
     }
   });
 
   return (isSuccess: isSuccess, message: message);
 }
 </code></pre>
-<p>Example:</p>
+<p>使用例:</p>
 <pre><code class="language-dart">final result = reduceVideoQualityByPercentage(
   inputPath: videoPath!,
   outputPath: outputPath,
@@ -179,9 +179,9 @@
 );
 </code></pre>
 
-<h2>6. Create GIF from Video</h2>
-<p>Function to create a GIF:</p>
-<pre><code class="language-dart">Future&lt;({bool isSuccess, String messageFuture&lt;({bool isSuccess, String message})&gt; createGifFromVideo({
+<h2>6. ビデオからGIFを作成</h2>
+<p>GIFを作成する関数:</p>
+<pre><code class="language-dart">Future&lt;({bool isSuccess, String message})&gt; createGifFromVideo({
   required String inputPath,
   required String outputPath,
   required double fps,
@@ -196,17 +196,17 @@
   await FFmpegKit.execute(command).then((session) async {
     final returnCode = await session.getReturnCode();
     if (returnCode?.isValueSuccess() ?? false) {
-      message = "GIF created successfully!";
+      message = "GIFが正常に作成されました!";
       isSuccess = true;
     } else {
-      message = "Failed to create GIF.";
+      message = "GIFの作成に失敗しました。";
     }
   });
 
   return (isSuccess: isSuccess, message: message);
 }
 </code></pre>
-<p>Example usage:</p>
+<p>使用例:</p>
 <pre><code class="language-dart">final result = createGifFromVideo(
   inputPath: videoPath!,
   outputPath: pathGif,
@@ -215,7 +215,7 @@
   scale: 500,
 );
 </code></pre>
-<p>The larger the scale, the closer the GIF quality is to the original video quality.</p>
+<p>スケールが大きいほど、GIFの品質は元のビデオ品質に近づきます。</p>
 
-<p>Pay attention to RAM when using this library. If you want to use the plugin directly, you can download it at <a href="https://pub.dev/packages/my_maker_video">https://pub.dev/packages/my_maker_video</a>.</p>
-<a href="https://buymeacoffee.com/ducmng12g" target="_blank"><img align="center" src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="49" width="208"></a>
+<p>このライブラリを使用する際には、RAMに注意してください。プラグインを直接使用する場合は、<a href="https://pub.dev/packages/my_maker_video">https://pub.dev/packages/my_maker_video</a>からダウンロードできます。</p>
+<a href="https://buymeacoffee.com/ducmng12g" target="_blank"><img align="center" src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="コーヒーを買う" height="49" width="208"></a>

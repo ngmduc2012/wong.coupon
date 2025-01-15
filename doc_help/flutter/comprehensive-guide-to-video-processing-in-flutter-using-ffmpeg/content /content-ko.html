@@ -1,64 +1,64 @@
-<h1>Comprehensive Guide to Video Processing with FFmpeg on Flutter</h1>
+<h1>FFmpeg를 사용한 Flutter에서의 동영상 처리 종합 가이드</h1>
 <img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/comprehensive-guide-to-video-processing-in-flutter-using-ffmpeg/thumbnail/comprehensive-guide-to-video-processing-in-flutter-using-ffmpeg-thumbnail-1.png" >
 
-<p><strong>Process videos on Flutter with optimal speed and performance</strong></p>
-<p>Video processing is one of the most resource-intensive tasks, especially for a device's RAM and CPU. Without proper optimization, your app might crash. During development, I faced issues using third-party libraries from Pub.dev for tasks such as:</p>
+<p><strong>최적의 속도와 성능으로 Flutter에서 비디오를 처리하세요</strong></p>
+<p>비디오 처리는 리소스를 많이 소비하는 작업 중 하나이며, 특히 장치의 RAM과 CPU에 많은 부담을 줍니다. 적절한 최적화 없이, 앱이 충돌할 수 있습니다. 개발 중에, Pub.dev에서 제공하는 타사 라이브러리를 사용하여 다음 작업에서 문제가 발생했습니다:</p>
 <ul>
-    <li>Converting videos to GIFs.</li>
-    <li>Transforming multiple images into a video.</li>
+  <li>비디오를 GIF로 변환하기.</li>
+  <li>여러 이미지를 비디오로 변환하기.</li>
 </ul>
-<p>These libraries often take a long time to process and produce results that fail to meet quality expectations. However, with <strong>FFmpeg</strong>, you can handle these tasks efficiently.</p>
+<p>이 라이브러리들은 처리 시간이 오래 걸리는 경우가 많으며, 기대에 부응하지 못하는 품질의 결과물을 생성합니다. 하지만, <strong>FFmpeg</strong>를 사용하면 이러한 작업을 효율적으로 처리할 수 있습니다.</p>
 
-<h2>1. Introduction to FFmpeg</h2>
-<p><a href="https://www.ffmpeg.org/">FFmpeg</a> is a powerful open-source library designed for processing audio and video. It supports numerous tasks such as:</p>
+<h2>1. FFmpeg 소개</h2>
+<p><a href="https://www.ffmpeg.org/">FFmpeg</a>는 오디오 및 비디오 처리를 위해 설계된 강력한 오픈 소스 라이브러리입니다. 다음과 같은 여러 작업을 지원합니다:</p>
 <ul>
-    <li>Format conversion (MP4, MKV, MP3).</li>
-    <li>Video and audio processing: adding watermarks, trimming, compressing quality.</li>
-    <li>Creating GIFs from videos.</li>
-    <li>Streaming and optimizing media files.</li>
+  <li>형식 변환 (예: MP4, MKV, MP3).</li>
+  <li>비디오 및 오디오 처리: 워터마크 추가, 자르기, 품질 압축.</li>
+  <li>비디오에서 GIF 생성.</li>
+  <li>미디어 파일 스트리밍 및 최적화.</li>
 </ul>
-<p>The <a href="https://pub.dev/packages/ffmpeg_kit_flutter_full_gpl">ffmpeg_kit_flutter_full_gpl</a> package brings FFmpeg's full functionality to Flutter. Additionally, you can explore other packages at <a href="https://github.com/arthenica/ffmpeg-kit/wiki/Packages">FFmpeg Kit Packages</a>.</p>
+<p><a href="https://pub.dev/packages/ffmpeg_kit_flutter_full_gpl">ffmpeg_kit_flutter_full_gpl</a> 패키지는 FFmpeg의 모든 기능을 Flutter로 가져옵니다. 또한, <a href="https://github.com/arthenica/ffmpeg-kit/wiki/Packages">FFmpeg Kit Packages</a>에서 다른 패키지를 확인할 수 있습니다.</p>
 
-<h2>2. Setting Up the FFmpeg Toolkit</h2>
-<h3>Installation</h3>
-<p>Add the dependency to your <code>pubspec.yaml</code> file:</p>
+<h2>2. FFmpeg 툴킷 설정</h2>
+<h3>설치</h3>
+<p><code>pubspec.yaml</code> 파일에 의존성을 추가하세요:</p>
 <pre><code class="language-yaml">ffmpeg_kit_flutter_full_gpl: ^latest_version
 </code></pre>
-<p>Run the command:</p>
+<p>명령어를 실행하세요:</p>
 <pre><code class="language-bash">flutter pub get
 </code></pre>
 
-<h3>Android Configuration</h3>
-<p>Update the <code>android/app/build.gradle</code> file:</p>
+<h3>Android 설정</h3>
+<p><code>android/app/build.gradle</code> 파일을 업데이트하세요:</p>
 <pre><code class="language-gradle">defaultConfig {
     ...
     minSdk = 24
     ...
 }
 </code></pre>
-<p>Update permissions in <code>AndroidManifest.xml</code>:</p>
+<p><code>AndroidManifest.xml</code>에서 권한을 업데이트하세요:</p>
 <pre><code class="language-xml">&lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/&gt;
 &lt;uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/&gt;
 &lt;uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/&gt;
 </code></pre>
 
-<h3>iOS Configuration</h3>
-<p>Add the following to your <code>Info.plist</code>:</p>
+<h3>iOS 설정</h3>
+<p><code>Info.plist</code>에 다음을 추가하세요:</p>
 <pre><code class="language-xml">&lt;key&gt;NSPhotoLibraryUsageDescription&lt;/key&gt;
-&lt;string&gt;We need access to your photo library to pick files.&lt;/string&gt;
+&lt;string&gt;파일을 선택하기 위해 사진 라이브러리에 접근할 필요가 있습니다.&lt;/string&gt;
 &lt;key&gt;NSDocumentDirectoryUsageDescription&lt;/key&gt;
-&lt;string&gt;We need access to your documents to pick files.&lt;/string&gt;
+&lt;string&gt;파일을 선택하기 위해 문서 디렉토리에 접근할 필요가 있습니다.&lt;/string&gt;
 &lt;key&gt;UIFileSharingEnabled&lt;/key&gt;
 &lt;true/&gt;
 &lt;key&gt;LSSupportsOpeningDocumentsInPlace&lt;/key&gt;
 &lt;true/&gt;
 </code></pre>
-<p>Ensure the <code>ios/Podfile</code> has the platform version:</p>
+<p><code>ios/Podfile</code>에 플랫폼 버전이 포함되어 있는지 확인하세요:</p>
 <pre><code class="language-ruby">platform :ios, '13.0'
 </code></pre>
 
-<h2>3. Convert a Series of Images to Video</h2>
-<p>Here is a function for conversion:</p>
+<h2>3. 일련의 이미지를 비디오로 변환</h2>
+<p>변환을 위한 함수는 다음과 같습니다:</p>
 <pre><code class="language-dart">Future&lt;({bool isSuccess, String message})&gt; convertImageDirectoryToVideo({
   required String imagesPath,
   required String outputVideoPath,
@@ -79,29 +79,29 @@
     final returnCode = await session.getReturnCode();
 
     if (returnCode?.isValueSuccess() ?? false) {
-      message = 'Video conversion successful!';
+      message = '비디오 변환이 성공했습니다!';
       isSuccess = true;
     } else {
       final output = await session.getOutput();
-      message = 'Video conversion failed: $output';
+      message = '비디오 변환에 실패했습니다: $output';
     }
   });
 
   return (isSuccess: isSuccess, message: message);
 }
 </code></pre>
-<p>Usage example:</p>
+<p>사용 예제:</p>
 <pre><code class="language-dart">final result = convertImageDirectoryToVideo(
   imagesPath: "path/to/images",
   outputVideoPath: "path/to/videoOutput.mp4",
 );
 </code></pre>
-<p>Ensure the <code>path/to/images</code> directory contains images named with natural numbers and in <code>.png</code> format, as shown below:</p>
-<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/comprehensive-guide-to-video-processing-in-flutter-using-ffmpeg/image/comprehensive-guide-to-video-processing-in-flutter-using-ffmpeg-image-1.jpeg" alt="Example Image" /></p>
-<p>The file <code>path/to/videoOutput.mp4</code> must have a unique name to avoid errors during Ffmpeg processing.</p>
+<p><code>path/to/images</code> 디렉토리에 자연수로 이름이 지정된 이미지가 포함되어 있고 <code>.png</code> 형식인지 확인하세요. 아래 예제와 같이:</p>
+<p><img src="https://raw.githubusercontent.com/ngmduc2012/wong.coupon/refs/heads/main/doc_help/flutter/comprehensive-guide-to-video-processing-in-flutter-using-ffmpeg/image/comprehensive-guide-to-video-processing-in-flutter-using-ffmpeg-image-1.jpeg" alt="예제 이미지" /></p>
+<p><code>path/to/videoOutput.mp4</code> 파일 이름은 고유해야 하며, 이는 Ffmpeg 처리 중 오류를 방지합니다.</p>
 
-<h2>4. Add Watermark to Video</h2>
-<p>Function to add a watermark:</p>
+<h2>4. 비디오에 워터마크 추가</h2>
+<p>워터마크를 추가하는 함수:</p>
 <pre><code class="language-dart">Future&lt;({bool isSuccess, String message})&gt; addWatermarkToVideo({
   required String videoPath,
   required String watermarkPath,
@@ -123,17 +123,17 @@
   await FFmpegKit.execute(command).then((session) async {
     final returnCode = await session.getReturnCode();
     if (returnCode?.isValueSuccess() ?? false) {
-      message = "Watermark added successfully!";
+      message = "워터마크가 성공적으로 추가되었습니다!";
       isSuccess = true;
     } else {
-      message = "Failed to add watermark.";
+      message = "워터마크 추가에 실패했습니다.";
     }
   });
 
   return (isSuccess: isSuccess, message: message);
 }
 </code></pre>
-<p>Usage example:</p>
+<p>사용 예제:</p>
 <pre><code class="language-dart">final result = addWatermarkToVideo(
   videoPath: videoPath!,
   watermarkPath: watermarkPath!,
@@ -145,8 +145,8 @@
 );
 </code></pre>
 
-<h2>5. Reduce Video Quality</h2>
-<p>Function to reduce quality:</p>
+<h2>5. 비디오 품질 저하</h2>
+<p>품질을 저하하는 함수:</p>
 <pre><code class="language-dart">Future&lt;({bool isSuccess, String message})&gt; reduceVideoQualityByPercentage({
   required String inputPath,
   required String outputPath,
@@ -161,17 +161,17 @@
   await FFmpegKit.execute(command).then((session) async {
     final returnCode = await session.getReturnCode();
     if (returnCode?.isValueSuccess() ?? false) {
-      message = "Quality reduced successfully!";
+      message = "품질이 성공적으로 저하되었습니다!";
       isSuccess = true;
     } else {
-      message = "Failed to reduce quality.";
+      message = "품질 저하에 실패했습니다.";
     }
   });
 
   return (isSuccess: isSuccess, message: message);
 }
 </code></pre>
-<p>Example:</p>
+<p>사용 예제:</p>
 <pre><code class="language-dart">final result = reduceVideoQualityByPercentage(
   inputPath: videoPath!,
   outputPath: outputPath,
@@ -179,9 +179,9 @@
 );
 </code></pre>
 
-<h2>6. Create GIF from Video</h2>
-<p>Function to create a GIF:</p>
-<pre><code class="language-dart">Future&lt;({bool isSuccess, String messageFuture&lt;({bool isSuccess, String message})&gt; createGifFromVideo({
+<h2>6. 비디오에서 GIF 만들기</h2>
+<p>GIF를 만드는 함수:</p>
+<pre><code class="language-dart">Future&lt;({bool isSuccess, String message})&gt; createGifFromVideo({
   required String inputPath,
   required String outputPath,
   required double fps,
@@ -196,17 +196,17 @@
   await FFmpegKit.execute(command).then((session) async {
     final returnCode = await session.getReturnCode();
     if (returnCode?.isValueSuccess() ?? false) {
-      message = "GIF created successfully!";
+      message = "GIF가 성공적으로 생성되었습니다!";
       isSuccess = true;
     } else {
-      message = "Failed to create GIF.";
+      message = "GIF 생성에 실패했습니다.";
     }
   });
 
   return (isSuccess: isSuccess, message: message);
 }
 </code></pre>
-<p>Example usage:</p>
+<p>사용 예제:</p>
 <pre><code class="language-dart">final result = createGifFromVideo(
   inputPath: videoPath!,
   outputPath: pathGif,
@@ -215,7 +215,7 @@
   scale: 500,
 );
 </code></pre>
-<p>The larger the scale, the closer the GIF quality is to the original video quality.</p>
+<p>스케일이 클수록 GIF의 품질은 원본 비디오 품질에 더 가까워집니다。</p>
 
-<p>Pay attention to RAM when using this library. If you want to use the plugin directly, you can download it at <a href="https://pub.dev/packages/my_maker_video">https://pub.dev/packages/my_maker_video</a>.</p>
-<a href="https://buymeacoffee.com/ducmng12g" target="_blank"><img align="center" src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="49" width="208"></a>
+<p>이 라이브러리를 사용할 때 RAM에 주의하세요。플러그인을 직접 사용하려면、<a href="https://pub.dev/packages/my_maker_video">https://pub.dev/packages/my_maker_video</a>에서 다운로드할 수 있습니다。</p>
+<a href="https://buymeacoffee.com/ducmng12g" target="_blank"><img align="center" src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="커피 한 잔 사기" height="49" width="208"></a>
