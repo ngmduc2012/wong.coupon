@@ -7,3 +7,4 @@ Các biện pháp giúp code sạch và tường minh cho đội nhóm
 3. Sử dụng kiến trức clean architectủre 
 4. Sử dụng cách tách biệt các plugin bên thứ 3 với dự án chính bằng các class riêng biêt, vì các vấn đề plugin đó không còn đc update. 
 5. Các phần liên quan đến native cần tách biệt ra các plugin để đảm bảo tường minh và dẽ bảo trì, cũng dễ dàng sửa các lỗi native không xác định bằng cách tạo project mới 
+6. Câu l;ệnh dart giúp làm sạch code, cho đồng nghiệp , và bản thân,  

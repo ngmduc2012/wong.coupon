@@ -16,4 +16,5 @@ Việc cần làm ở đây là hãy làm việc thông minh, và đưa những 
 Những phần code phức tạp và dài dòng sẽ có sự giúp đỡ của mason, giúp giảm 1 lượng vô cùng lớn công sức và tránh nhầm lẫn,  
 5. Kiến trức clean architecture 
 6. Tách thành các package để dùng chung cho nhiều dự án. 
+6. Clean code nhanh code thaoir mái, format code nhanh  
 7. Avtivity diagram giúp thành viên mới hoặc việc bảo trì sau 1 thừoi gian lâu ko động vào code. Sửa bug 
