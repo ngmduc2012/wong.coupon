@@ -21,3 +21,6 @@ Chat GPT
 Bước 1 hãy viết lại bài viết sao cho dễ hiểu hơn như 1 bài hướng dẫn chi tiết nhưng không được bỏ bất kỳ ý nào của tôi và bạn có thể thêm ý kiến của bạn giúp vấn đề được tường minh hơn, nếu có lỗi chính tả hãy sửa nó. 
 Bước 2 hãy viết bài viết của bạn vửa viết ra dứoi dạng markdown. 
 Cuôí cùng hãy đưa bài văn bạn tạo được trong bước 2 cho tôi.  
+
+Viết doc xong đem lên cộng đồng tự đặt câu hỏi tự trả lời
+https://flutter.dev/community
