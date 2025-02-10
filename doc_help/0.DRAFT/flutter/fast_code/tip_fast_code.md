@@ -7,6 +7,8 @@ Tip code nhanh hơn với Flutter
 5. live teamplate  
 6. Tự động hoá, tạo các tính năng sinh code của riêng mình. 
 7. ứng dụng AI cho chuyển đổi ngôn ngữ. 
+8. Tạo các nút ấn, để pass qua các tính năng cần thơi gian, 
+9. tạo log ngay treen màn hình 
 
 
 Phần này dành cho giảm thời gian maintain và bảo trì code. 
