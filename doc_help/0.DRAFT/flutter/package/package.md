@@ -102,7 +102,7 @@ include: ../../analysis_options.yaml
 Để tạo cấu trúc các file thử mục như trong hình ảnh, bạn có thể sử dụng mason để tạo nó 1 cách nhanh chóng, nếu bạn chưa biết về mason, hãy tham khảo bài viết này của tôi *LINK* 
 Bạn có thể tham khảo brick của tôi tại đây [dr_folder_package](https://brickhub.dev/search?q=dr_folder_package) 
 
-## 1.3 Đẩy Mã Package Lên
+## 3 Đồng bộ folder package ở các dự án khác 
 ### Bước 1: Chạy
 ```bash
 cd pathTo/packages
