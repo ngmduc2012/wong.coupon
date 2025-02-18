@@ -40,13 +40,14 @@ flutter create --template=package hello_core
 ```
 
 ### Bước 2: Thiết lập lint trong tệp pubspec.yaml
+
 ```bash
 cd pathTo/hello_core
 flutter pub add lint
 flutter pub add test
 flutter pub add mockito
 ```
-
+The lint package is a package that helps check errors for Dart. This will help keep Dart code neat and formatted.
 [Learn more](https://pub.dev/packages/lint)
 
 ### Bước 3: Thay thế tệp analysis_options.yaml
@@ -99,60 +100,34 @@ include: ../../analysis_options.yaml
 
 [Learn more](https://docs.flutter.dev/packages-and-plugins/developing-packages)
 
-Để tạo cấu trúc các file thử mục như trong hình ảnh, bạn có thể sử dụng mason để tạo nó 1 cách nhanh chóng, nếu bạn chưa biết về mason, hãy tham khảo bài viết này của tôi *LINK* 
-Bạn có thể tham khảo brick của tôi tại đây [dr_folder_package](https://brickhub.dev/search?q=dr_folder_package) 
+Để tạo cấu trúc các file thử mục như trong hình ảnh, bạn có thể sử dụng mason để tạo nó 1 cách nhanh chóng, nếu bạn chưa biết về mason. Bạn có thể tham khảo brick của tôi tại đây [dr_folder_package](https://brickhub.dev/search?q=dr_folder_package) 
 
 ## 3 Đồng bộ folder package ở các dự án khác 
-### Bước 1: Chạy
+### Bước 1: Tạo 1 repository mới 
+### Bước 2: Chạy
 ```bash
 cd pathTo/packages
 git add .
 git commit -am "changed"
 git push origin feature-snap
 ```
-### Bước 2: (tuỳ chọn) đẩy lên
+### Bước 3: (tuỳ chọn) đẩy lên
 ```bash
 cd pathTo/packages
 git fetch
 git pull origin master --rebase
 ```
 
-## 1.4 Các nhánh
-master
-feature-snap
-feature-sms
-feature-my
-feature-zeus
+## 1.4 Branch
+Create branch for package\
+eg: 
+- master
+- feature-snap
+- feature-sms
+- feature-my
+- feature-zeus
 
-```bash
-cd ../packages
-git add .
-git commit -am "2.0.10 | "
-git commit --amend
-git push origin feature-snap -f
-git push origin feature-sms
-git push origin feature-my
-git push origin feature-zeus
-git checkout master
-git fetch 
-git merge --no-ff origin/feature-snap --allow-unrelated-histories
-git merge --no-ff origin/feature-my --allow-unrelated-histories
-git merge --no-ff origin/feature-zeus --allow-unrelated-histories
-:qa
-git merge --continue
-
-git add .
-git commit -am "2.0.10 | "
-git push origin master
-
-git tag -a v2.0.10 -am 'version 2.0.10'
-git push origin tag v2.0.10
-
-git checkout feature-snap
-git checkout feature-my
-git checkout feature-zeus
-git gc
-```
+and then you can use the command below to update the package
 
 ### Bước 2: (tuỳ chọn) kéo về
 ```bash
@@ -163,6 +138,14 @@ git push origin feature-my
 git push origin feature-zeus
 git gc
 ```
+## 1.5 Package Structure
+A project package can contain many sub-packages. For example my package structure
+![package-structure.png](package-structure.png)
+## Use package in your project
+To easily maintain and fix your package and your project, you should put the package in your project. It allows you to easily edit your project without having to update to git constantly.
+![project-structure.png](project-structure.png)
 
+and then add package name to your pubspec.yaml
+![yaml-instruct.png](yaml-instruct.png)
 ## Kết Luận
 Việc xây dựng package giúp giảm thời gian code, tạo ra mã một lần và sử dụng lại nhiều lần trong nhiều dự án, giảm thời gian thiết lập lại. Chúc bạn thành công trong việc tạo và quản lý package của mình! 🎉
