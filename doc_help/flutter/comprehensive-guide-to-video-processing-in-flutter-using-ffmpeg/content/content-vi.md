@@ -1,16 +1,13 @@
-# Hướng Dẫn Xử Lý Video với FFmpeg Flutter
+# Cách Xử Lý Video với FFmpeg Flutter
 
 ![img.png](img.png)
-
-**Xử lý video trên Flutter với tốc độ nhanh và hiệu năng tối ưu nhất**
 
 Xử lý video là một trong những công việc tốn nhiều tài nguyên, đặc biệt là RAM và CPU của thiết bị. Nếu không được tối ưu hóa, ứng dụng của bạn dễ gặp sự cố crash. Trong quá trình phát triển, tôi đã gặp vấn đề khi sử dụng các thư viện bên thứ ba từ Pub.dev để:
 
 - Chuyển video thành GIF.
-- Chuyển đổi hàng loạt ảnh thành video.
+- Chuyển đổi danh sách hình ảnh thành 1 video.
 
 Những thư viện này thường mất nhiều thời gian xử lý và cho ra kết quả không đạt chất lượng mong muốn. Tuy nhiên, với **FFmpeg**, bạn có thể giải quyết những vấn đề trên một cách hiệu quả.
-
 
 
 ## 1. Giới Thiệu FFmpeg
@@ -25,8 +22,8 @@ Những thư viện này thường mất nhiều thời gian xử lý và cho ra
 Bộ công cụ [ffmpeg_kit_flutter_full_gpl](https://pub.dev/packages/ffmpeg_kit_flutter_full_gpl) mang lại đầy đủ tính năng của FFmpeg trên Flutter. Ngoài ra, bạn có thể tham khảo các gói khác tại [FFmpeg Kit Packages](https://github.com/arthenica/ffmpeg-kit/wiki/Packages).
 
 
-
 ## 2. Cài Đặt Bộ Công Cụ FFmpeg
+Chú ý: Bài viết này xây dựng với phiên bản flutter 3.24.5 và thư viện ffmpeg_kit_flutter_full_gpl 6.0.3, có vẻ như các phiên bản mới của Flutter, thư viện này đang không hoặt động tốt.
 
 ### Cài Đặt
 Thêm dependency vào tệp `pubspec.yaml`:
@@ -84,7 +81,8 @@ platform :ios, '13.0'
 
 ## 3. Chuyển Loạt Ảnh Thành Video
 
-Dưới đây là một hàm chuyển đổi:
+Dưới đây là một hàm chuyển đổi danh sách hình ảnh thành video:
+Ý tưởng của tôi là lưu tất cả hình ảnh vào 1 thư mục và công cụ ffmpegKit sẽ đọc nó lên tạo thành video.
 
 ```dart
 Future<({bool isSuccess, String message})> convertImageDirectoryToVideo({
@@ -133,7 +131,7 @@ final result = convertImageDirectoryToVideo(
 ![Hình minh họa](example/assets/image.jpeg)
 
 Tệp `path/to/videoOutput.mp4` phải có tên duy nhất để tránh sảy ra lỗi trong quá trình xử lý của Ffmpeg.
-
+Trong câu lệnh trên, với bất kỳ kích thước nào nào hình ảnh, tôi sẽ chia trung bình chúng và tạo ra kích thước của video. Bạn có thể sự sửa câu lệnh theo ý muốn của mình 
 
 ## 4. Thêm Watermark Vào Video
 
@@ -185,7 +183,7 @@ final result = addWatermarkToVideo(
   height: 200,
 );
 ```
-
+Trong đó x, y là toạ độ của watermark. width và height là kích thước của watermark. 
 
 
 ## 5. Giảm Chất Lượng Video
@@ -274,4 +272,7 @@ final result = createGifFromVideo(
 Kích thước scale càng lớn thì chất lượng gif càng sát với chất lượng gốc của video.
 
 Hãy chú ý đến RAM khi sử dụng thư viện này.
-Nếu bạn muốn sử dụng trực tiếp plugin, có thể tải tại [https://pub.dev/packages/my_maker_video](https://pub.dev/packages/my_maker_video).
+Nếu bạn muốn sử dụng luôn, hãy sử dụng plugin của tôi tại [https://pub.dev/packages/my_maker_video](https://pub.dev/packages/my_maker_video).
+
+[Buy Me a Coffee](https://buymeacoffee.com/ducmng12g) | [Support Me on Ko-fi](https://ko-fi.com/I2I81AEJG8)
+

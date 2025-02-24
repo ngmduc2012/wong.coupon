@@ -1,4 +1,4 @@
-# Hướng Dẫn Tạo và Quản Lý Package
+# Package, lưu trữ những gì hay nhất của bạn cho các dự án. 
 
 **Tạo và quản lý package giúp giảm thời gian code đáng kể, tái sử dụng mã nguồn, và giúp duy trì dự án một cách dễ dàng hơn. Dưới đây là một số lợi ích cụ thể của việc tạo package:**
 
@@ -16,7 +16,7 @@
 
 Dưới đây là hướng dẫn chi tiết về cách tạo và quản lý package:
 
-## 1 Cách tôi thiết lập các package cho đội nhóm.
+## 1 Cách tôi thiết lập các package có thể sử dụng được trong nhiều dự án.
 
 ![image1.png](image1.png)
 
@@ -102,50 +102,100 @@ include: ../../analysis_options.yaml
 
 Để tạo cấu trúc các file thử mục như trong hình ảnh, bạn có thể sử dụng mason để tạo nó 1 cách nhanh chóng, nếu bạn chưa biết về mason. Bạn có thể tham khảo brick của tôi tại đây [dr_folder_package](https://brickhub.dev/search?q=dr_folder_package) 
 
-## 3 Đồng bộ folder package ở các dự án khác 
-### Bước 1: Tạo 1 repository mới 
-### Bước 2: Chạy
+## 3 Đồng bộ folder package ở các dự án khác nhau
+Ý tưởng của tôi là sẽ đồng bộ tất cả chúng bằng git, và mỗi 1 package trong 1 dựa án sẽ được chứa trong 1 branch khác nhau, bạn có thể gộp tất cả chúng lại làm 1 sau này. 
+
+### 3.1 Thiết lập vào trong dự án
+Ý tưởng là tạo 1 project packages trên git và gán nó vào thư mực package của chúng ta. 
+```bash
+git clone https://gitlab.com/yourdoamin/packages.git
+cd pathTo/packages
+git checkout master
+git branch feature-snap
+git checkout feature-snap
+
+```
+Hoặc nếu thư mục đã tồn tại. 
+```bash
+cd pathTo/packages
+git init
+git remote add origin https://gitlab.com/yourdoamin/packages.git
+git fetch 
+```
+
+Bạn sẽ thấy việc này khá là rườm rà, tại sao lại không tạo thành riêng 1 project package và nó tách riêng khỏi project chính. Việc làm của tôi có 1 ưu điểm là khi lập trình, chúng ta có thể dễ dàng thêm mới chỉnh sửa, tìm kiếm trong package, và toàn bộ code trong package vẫn nằm trong project, điều này sẽ đảm bảo an toàn nếu ai đó khoá packages của bạn trên git. 
+
+### 3.2 Sử dụng 
+#### Bước 1: Chạy
 ```bash
 cd pathTo/packages
 git add .
 git commit -am "changed"
 git push origin feature-snap
 ```
-### Bước 3: (tuỳ chọn) đẩy lên
+#### Bước 2: (tuỳ chọn) đẩy lên
 ```bash
 cd pathTo/packages
 git fetch
 git pull origin master --rebase
 ```
 
-## 1.4 Branch
-Create branch for package\
-eg: 
-- master
-- feature-snap
-- feature-sms
-- feature-my
-- feature-zeus
+## 4. Cách sử dụng chúng trong dự án thực tế
+Giả sử tôi có 1 hàm để in json ra màn hình log theo đúng các json hiển thị, tôi sẽ cho nó vào trong 1 class có tên là string.dart được đặt trong package có tên là dart_core như hình dưới đây:
+![image3.png](image3.png)
 
-and then you can use the command below to update the package
+Bước 1: Bên trong file đó tôi sẽ có nội dung như sau: 
+```dart
+extension MyStringHelper on String {
+  String get myPrintStringJson {
+    if (isJSON(this)) {
+      const JsonDecoder decoder = JsonDecoder();
+      const JsonEncoder encoder = JsonEncoder.withIndent('  ');
 
-### Bước 2: (tuỳ chọn) kéo về
-```bash
-git pull origin master
-git push origin feature-snap
-git push origin feature-sms
-git push origin feature-my
-git push origin feature-zeus
-git gc
+      final object = decoder.convert(this);
+      final prettyString = encoder.convert(object);
+      var string = "";
+      prettyString.split('\n').forEach((element) => string = '$string\n$element');
+      return string;
+    } else {
+      var format = this;
+      format = format.replaceAll('{', '\n{\n  ');
+      format = format.replaceAll(',"', ',\n  "');
+      format = format.replaceAll('}', '\n}');
+      format = format.replaceAll('":', '" : ');
+      format = format.replaceAll('[', '[\n  ');
+      format = format.replaceAll(']', '\n]');
+      return format;
+    }
+    // return this;
+  }
+}
 ```
-## 1.5 Package Structure
-A project package can contain many sub-packages. For example my package structure
-![package-structure.png](package-structure.png)
-## Use package in your project
-To easily maintain and fix your package and your project, you should put the package in your project. It allows you to easily edit your project without having to update to git constantly.
-![project-structure.png](project-structure.png)
+Bước 2: Khai báo 
+Tôi sẽ khai báo nó ra file dart_core.dart (Đây thực chất không phải là cách tôi làm trong package)
+```dart
+export 'dart/src/string.dart';
+```
 
-and then add package name to your pubspec.yaml
-![yaml-instruct.png](yaml-instruct.png)
-## Kết Luận
-Việc xây dựng package giúp giảm thời gian code, tạo ra mã một lần và sử dụng lại nhiều lần trong nhiều dự án, giảm thời gian thiết lập lại. Chúc bạn thành công trong việc tạo và quản lý package của mình! 🎉
+Bước 2: khai báo nó vào trong project 
+
+```yaml
+dependencies:
+    flutter:
+      sdk: flutter
+    
+    dart_core:
+      path: packages/ancestor_cores/dart_core
+```
+
+Bước 3: Sử dụng 
+Gải sử tôi đang muốn in ra 1 json ra ngoài màn hình.
+```dart
+import 'package:dart_core/dart_core.dart';
+
+
+myLog.warning((await myLocation.locationAccuracy).toString().myPrintStringJson);
+```
+
+Như vậy là đã hoàn thành 1 chu trình tạo và sử dụng 1 hàm trong package, giờ bạn có thể tuỳ ý sáng tạo và lưu trữ những thứ hay nhất của mình trong package và tái sử dụng lại khi cần thiết. Cách này sẽ rất hữu ích khi thiết lập 1 dự án với Firebase, bạn có thể tái sử dụng lại ở nhiều dự án khác mà không mất thời gian thiết lập lại. 
+

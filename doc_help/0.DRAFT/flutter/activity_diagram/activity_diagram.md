@@ -1,4 +1,4 @@
-# **Lợi Ích Của Sơ Đồ Hoạt Động (Activity Diagram) Trong Phát Triển Các Ứng Dụng Flutter**
+# **Activity Diagram dễ dàng truy xuất lỗi và nắm bắt luồng nhanh chóng trong Flutter**
 
 Trong lĩnh vực phát triển phần mềm, việc duy trì và phát triển một dự án lớn đòi hỏi sự hợp tác chặt chẽ giữa các thành viên trong nhóm. Sự hiểu biết sâu sắc về cấu trúc và luồng hoạt động của ứng dụng là yếu tố then chốt để đảm bảo hiệu suất và chất lượng công việc. **Sơ đồ hoạt động (Activity Diagram)** đóng vai trò quan trọng trong việc này, giúp các lập trình viên mới và cả những người đã lâu không tương tác với dự án nhanh chóng nắm bắt và đóng góp hiệu quả.
 
@@ -12,12 +12,12 @@ Trong lĩnh vực phát triển phần mềm, việc duy trì và phát triển 
 
 - **Giảm Khả Năng Hiểu Sai:**
     - Tránh hiểu nhầm về chức năng hoặc luồng dữ liệu do sự phức tạp của code.
-    - Cung cấp một ngôn ngữ chung giữa các thành viên, bất kể kinh nghiệm hay nền tảng.
+    - Cung cấp một ngôn ngữ chung giữa các thành viên.
 
 ### **2.2. Hỗ Trợ Lập Trình Viên Khi Quay Lại Tính Năng Sau Thời Gian Dài**
 
-- **Đọc Hiểu Lại Nhanh Chóng:**
-    - Sau một thời gian không làm việc với một tính năng cụ thể, ngay cả lập trình viên cũ cũng có thể gặp khó khăn.
+- **Nắm bắt Lại luồng Nhanh Chóng:**
+    - Sau một thời gian không làm việc với một tính năng cụ thể, ngay cả lập trình viên viết ra nó cũng có thể gặp khó khăn.
     - Sơ đồ hoạt động giúp họ nhanh chóng nhớ lại cách thức hoạt động và logic liên quan. 
 
 - **Tiết Kiệm Thời Gian:**
@@ -31,23 +31,15 @@ Trong lĩnh vực phát triển phần mềm, việc duy trì và phát triển 
     - Hỗ trợ phân tích luồng dữ liệu và trạng thái hệ thống.
 
 - **Hợp Tác Trong Việc Sửa Lỗi:**
-    - Dễ dàng trao đổi và thảo luận về vấn đề với các thành viên khác dựa trên một biểu đồ chung.
+    - Dễ dàng trao đổi và thảo luận về vấn đề với các thành viên khác dựa trên một biểu đồ chung vì có thể mỗi thành viên lại đảm nhận 1 luồng khác nhau của dự án.
     - Tăng hiệu quả làm việc nhóm trong việc debug và tối ưu hóa.
 
 ### **2.4. Hỗ Trợ Trong Việc Thiết Kế và Mở Rộng Tính Năng**
 
 - **Lập Kế Hoạch Hiệu Quả:**
     - Trước khi triển khai tính năng mới, sơ đồ hoạt động giúp hình dung cách tính năng đó sẽ tích hợp vào hệ thống hiện có.
-    - Dự đoán được các tác động và rủi ro tiềm ẩn.
+    - Dự đoán được các tác động và rủi ro tiềm ẩn. Có lẽ đây là tính năng hữu ích nhất mà tôi cảm thấy khi sử dụng Activity Diagram. Các luồng/tính nắng mới có độ phức tạp cao, tôi đã vẽ nó ra trước và đã giảm thiểu được rất nhiều thời gian code và các lỗi tiềm ẩn có thể sảy ra. 
 
-- **Tài Liệu Hóa Quy Trình:**
-    - Giữ cho tài liệu dự án luôn cập nhật, hỗ trợ trong việc tuân thủ các tiêu chuẩn và quy định.
-
-### **2.5. Tăng Cường Giao Tiếp Giữa Các Bộ Phận**
-
-- **Kết Nối Giữa Kỹ Thuật và Phi Kỹ Thuật:**
-    - Sơ đồ hoạt động không chỉ hữu ích cho lập trình viên mà còn cho các bộ phận khác như quản lý dự án, kiểm thử, và khách hàng.
-    - Đảm bảo mọi người đều có cùng hiểu biết về hệ thống.
 
 ## **3. Cách Xây Dựng Sơ Đồ Hoạt Động Hiệu Quả**
 
@@ -59,8 +51,11 @@ Trong lĩnh vực phát triển phần mềm, việc duy trì và phát triển 
     - Công cụ phổ biến và tôi thường sử dụng là Visual Paradigm https://online.visual-paradigm.com/
     - Đảm bảo sơ đồ luôn phản ánh đúng trạng thái hiện tại của hệ thống.
     - Cập nhật khi có thay đổi về luồng công việc hoặc thêm bớt tính năng.
+
   
 ### **3.2. Cách truy suất luồng trong code**
+
+Trước tiên, bạn hay vẽ sơ đồ và hãy đảm bảo chắc chắn rằng luồng code của bạn là hoàn toàn chặt chẽ. Tất nhiên có thể nó sẽ thay đổi trong lúc bạn code nếu như luồng đó trong thực tế không hợp lý. 
 
 - **Từ biểu đồ đến code**
     - Ngoài việc sử dụng debug để kiểm tra xe ứng dụng có đang chạy đúng như mô tả hay không, chúng ta có thể để lại log tạo thành 1 list log để quan sát luồng chạy của nó, sau đó có thể lưu nó cào 1 file txt để đảm bảo có thể xem lại vào kiểm tra tại sao ứng dụng lại bị lỗi.
@@ -70,8 +65,8 @@ Trong lĩnh vực phát triển phần mềm, việc duy trì và phát triển 
 
 - **Cách tạo log dễ quan sát**
     ![image2.png](image2.png)
-    - Log mặc định của Flutter sẽ khá là đơn điều, tôi đã có 1 bài viết về cách tạo màu cho log, hãy tham khảo bài viết của tôi tại *LINK*
-    - Các bước thực hiện trong biểu đồ sẽ dễ dàng được tìm thấy trong log, và dễ dàng tìm ra các lỗi nằm ở đâu khi úng dụng sảy ra vấn đề. 
+    - Log mặc định của Flutter sẽ khá là đơn điều, tôi đã có 1 bài viết về cách tạo màu cho log, hãy tham khảo bài viết của tôi tại https://wong-coupon.gitbook.io/flutter/easy-code/log-color
+    - Các bước thực hiện trong biểu đồ sẽ dễ dàng được tìm thấy trong log, và dễ dàng tìm ra các lỗi nằm ở đâu khi úng dụng sảy ra vấn đề. Nó sẽ rất hữu ích nếu như file log được lưu vào bộ nhớ. 
     
   
 ## **4. Kết Luận**
