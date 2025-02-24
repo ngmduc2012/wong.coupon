@@ -10,7 +10,7 @@ enum PlanetType { terrestrial, gas, ice }
 - tự có thể dịch sang các ngôn ngữ khác  
 - Có thể tự liệt kê danh sách 
 - Tự tìm kiếm các giá trị trong hàm của mình  
-- có thể rút nắng các đoạn code có điều kiện 
+- có thể rút ngắn các đoạn code có điều kiện 
 
 Trong bài viết này tôi sẽ giúp bạn biến 1 enum đơn thuần trở thành 1 các code cực kỳ tiện lợi và nhanh chóng. 
 
