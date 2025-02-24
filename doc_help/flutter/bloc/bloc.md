@@ -9,7 +9,7 @@ Thường các dự án quy mô lớn sẽ sử dụng Bloc https://bloclibrary.
 
 Bên cạnh cung cấp giải pháp cho việc quản lý state, Bloc còn cung cấp các giải pháp khác mà tôi thường sử dụng như lưu trữ cache hoặc bộ nhớ các trạng thái của Bloc (hữu dụng khi sử dụng lưu trữ setting của ứng dụng).  Redo, Undo trạng thái. Tham khảo tại https://bloclibrary.dev/getting-started/#packages
 
-2.  Mason
+2. Code nhanh hơn với Mason
 
 
 Bạn có thể tham khảo mẫu Bloc xây dựng của tôi tại dr_bloc https://brickhub.dev/bricks/dr_bloc và xây dụng 1 cái cho riêng bản thân mình. Nếu bạn chưa biết sử dụng mason, hãy tham khảo https://wongcoupon.com/en/doc/help/flutter/boost-your-flutter-development-efficiency-with-mason
@@ -268,6 +268,14 @@ WidgetsFlutterBinding.ensureInitialized();
      );
 }
 ```
+
+5. Gọi bloc ở bất kỳ đâu trong project
+
+Đây là ví dụ cách tôi có thể truy cập context ở bất kỳ đâu: 
+```dart
+  final isUsageTimeLimit = myNavigatorKey.currentContext!.read<SettingBloc>().state.setting.otherSetting.isUsageTimeLimit;
+```
+Hãy tham khảo bài viết về context anywhere của tôi tại đây để biết cách thiết lập chúng. 
 
 Trên đây là cách tôi sử dụng bloc cho các dự án của mình, bạn có thể dựa bào nó để tự tạo cho bản thân 1 mẫu code phù hợp với các dự án của các bạn để giảm thiểu thời gian tạo mã nhưng vẫn đảm bảo có được toàn bộ sức mạnh của bloc 
 
