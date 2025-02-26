@@ -8,7 +8,7 @@
 
 - Hãy truy cập trang web [wongcoupon.com](https://wongcoupon.com/) này của tôi, và bạn sẽ nhận thấy thời gian ban đầu khi tải trang web rất là lâu. 
 Với máy tính thì mất tầm 3s nhưng với thiết bị di động thì sẽ lâu hơn. Tôi đã cố gắng cải thiện nhất có thể cho trang web của mình nhưng vẫn không hiệu quả. 
-Trước đây thời gian tải trang khoảng 4 đến 5 giây, lát nữa tôi sẽ chỉ cho bạn cách làm như nào để giảm khoảng thời gian tải trang đó xuống. 
+Trước đây thời gian tải trang khoảng 4 đến 5 giây. 
 
 
 ### **1.2. Khó Khăn Về SEO**

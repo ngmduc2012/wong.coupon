@@ -313,41 +313,57 @@ Text(OurInterpreter.success),
 Cách này cho thấy nó đơn giản hơn nhiều so với cách 1 , nhưng nó chỉ phù hợp với máy có dữ liệu tĩnh, 
 
 3. 3 tip giúp chuyển đổi ngôn ngữ nhanh chóng.  
-- Sử dụng công cụ json-translator
-Đây là công cụ đầu tiên tôi sử dụng giúp giải phóng sức lao động của mình khi phải ngồi dịch ngôn ngữ 
-Bạn có thể tham khảo tài liệu này tại  https://www.npmjs.com/package/@parvineyvazov/json-translator
+3.1 Sử dụng công cụ `json-translator`
 
-## How to setup?
-* Step 1: install npm
-  on macbook m1:
-  arch -arm64 brew upgrade (option)
-  arch -arm64 brew install node
+Đây là công cụ đầu tiên tôi sử dụng để tự động hóa việc dịch ngôn ngữ, giúp tiết kiệm rất nhiều thời gian và công sức.  
+Bạn có thể tham khảo tài liệu tại đây: [json-translator trên npm](https://www.npmjs.com/package/@parvineyvazov/json-translator).
 
-* Step 2:
-  Biên dịch file json ra nhiều ngôn ngữ:
-  Tham khảo: https://www.npmjs.com/package/@parvineyvazov/json-translator
-  Mở teminal với quyền Admin
-  Run: npm i -g @parvineyvazov/json-translator
-  if ERROR: zsh: command not found: jsontt
-  https://stackoverflow.com/a/43989258
-  alias jsontt="`npm config get prefix`/bin/jsontt"
-  Run: Set-ExecutionPolicy RemoteSigned  (Để cho phép chạy file ps1)
+- Cách thiết lập?
 
+Bước 1: Cài đặt npm
+Trên MacBook M1:
+```sh
+arch -arm64 brew upgrade (tuỳ chọn)  
+arch -arm64 brew install node  
+```
 
-## How to use?
-* Step 1:
-  Run: jsontt path (File sinh ra sẽ có cùng thư mục với file gốc)
-  jsontt /Users/ducmng12/Desktop/flutter_project/FlutterPhotoBooth/assets/i18n/_parent.json
-  jsontt /Users/ducmng12/Desktop/flutter_project/FlutterPhotoBooth/assets/i18n/_parent.json --module google --from ko --to en ko vi ja
-  jsontt /Users/ducmng12/Desktop/flutter_project/FlutterPhotoBooth/assets/i18n/_parent.json --module bing --from ko --to en ko vi ja
-  jsontt /Users/ducmng12/Desktop/flutter_project/FlutterPhotoBooth/assets/i18n/_parent.json --module bing --to ko vi ja
+ Bước 2: Biên dịch file JSON ra nhiều ngôn ngữ
+Tham khảo tài liệu chính thức: [json-translator trên npm](https://www.npmjs.com/package/@parvineyvazov/json-translator).
 
-  Ctrl + shift + C để copy path của thư mục đang mở.
-  Ấn dấu cách để chọn ngôn ngữ,.
+1. Mở terminal với quyền Admin.
+2. Chạy lệnh:
+   ```sh
+   npm i -g @parvineyvazov/json-translator  
+   ```
+3. Nếu gặp lỗi `zsh: command not found: jsontt`, chạy lệnh sau để khắc phục:
+   ```sh
+   alias jsontt="`npm config get prefix`/bin/jsontt"
+   ```
+4. Trên Windows, cần cấp quyền chạy file PowerShell:
+   ```sh
+   Set-ExecutionPolicy RemoteSigned
+   ```
 
-Cách trên đây sẽ khá là thu công, ngôn ngữ được dịch ra không được tự nhiên, nhất là với các ngôn ngữ chuyên ngành. 
+- Cách sử dụng?
 
-- Sử dụng chat GPT để chuyển đổi ngôn ngữ hằng loạt:  
+ Bước 1: Chạy lệnh dịch ngôn ngữ
+File JSON được dịch sẽ được lưu cùng thư mục với file gốc.
+
+Ví dụ các lệnh sử dụng:
+```sh
+jsontt /Users/your_user/Desktop/flutter_project/assets/i18n/_parent.json  
+jsontt /Users/your_user/Desktop/flutter_project/assets/i18n/_parent.json --module google --from ko --to en ko vi ja  
+jsontt /Users/your_user/Desktop/flutter_project/assets/i18n/_parent.json --module bing --from ko --to en ko vi ja  
+jsontt /Users/your_user/Desktop/flutter_project/assets/i18n/_parent.json --module bing --to ko vi ja  
+```
+
+ Mẹo sử dụng:
+- Dùng `Ctrl + Shift + C` để sao chép đường dẫn thư mục.
+- Nhấn `Space` để chọn ngôn ngữ đích.
+
+Mặc dù phương pháp này giúp tự động hóa việc dịch ngôn ngữ, nhưng vẫn cần điều chỉnh thủ công, đặc biệt đối với các thuật ngữ chuyên ngành vì bản dịch tự động có thể không chính xác.
+
+3.2. Sử dụng chat GPT để chuyển đổi ngôn ngữ hằng loạt:  
 Việc xuất hiện Chat GPT đã giúp chúng ta giảm bớt 1 lượng rất lớn sức láo động trên những công việc nhàm chán và giúp chúng ta tiếp cận với thế giới bằng ngôn ngữ. 
 Trước đây việc đắn đo về google dịch liệu có đúng không, thì hiện tại việc sử dụng chat GPT đã giúp ngôn ngữ tự nhiên và dễ hiểu hơn rất nhiều khi được dịch ra khi đó là tài liệu chuyên ngành.  
 
@@ -358,7 +374,7 @@ static String get payApp => MyInterpreter.translate('payApp');"
 
 Sau đó bạn chỉ việc copy kết quả của mình vào trong file json và class OurInterpreter
 
-- Sinh code từ file json hoặc Map để giảm thời gian khai báo  OurInterpreter
+3.3. Sinh code từ file json hoặc Map để giảm thời gian khai báo  OurInterpreter
 
 Ý tưởng là tôi đã bảo Chat GPT 4o code cho tôi 1 hàm dart, để đọc các giá trị trong json và tạo ra 1 file class OurInterpreter , tôi đã sửa lại 1 chút cho chính xác và chuẩn theo ý của tôi.
 Tôi sẽ đưa nó lên đây và các bạn có thể tham khảo, tư duy sử dụng AI là tạo các công cụ giúp tôi có thể chạy tự động mọi thứ.  

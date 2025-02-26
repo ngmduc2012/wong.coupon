@@ -1,27 +1,18 @@
-# Cách xây dụng plugin với các function giao tiếp với native 
+# Plugin, giao tiếp với native cách hiệu quả để bảo trì các ứng dụng Flutter. 
 
-Trong quá trình phát triển ứng dụng Flutter, có nhiều trường hợp cần truy cập vào các API gốc của hệ điều hành để tận dụng các chức năng không có sẵn trong Flutter. Để làm điều này, chúng ta có thể tạo một plugin giao tiếp với native bằng cách sử dụng MethodChannel. Plugin này cho phép Flutter gửi yêu cầu đến mã native và nhận kết quả trả về từ iOS và Android.
+Có nhiều trường hợp cần truy cập vào các API gốc của hệ điều hành để tận dụng các chức năng không có sẵn trong Flutter. Để làm điều này, chúng ta có thể tạo một plugin giao tiếp với native bằng cách sử dụng MethodChannel. Plugin này cho phép Flutter gửi yêu cầu đến mã native và nhận kết quả trả về từ iOS và Android.
+Tất nhiên chúng ta hoàn toàn có thể tạo nó ngay trong native của project, nhưng việc tác biệt nó ra thành 1 plugin sẽ giúp quá trình maintain sử chữa khi ứng dụng gặp lỗi sẽ trở nên khó khăn hơn. 
+Sau đây tôi sẽ tình bày về cách tôi tạo 1 plugin cho các ứng dụng của tôi. 
 
-Bài viết này sẽ hướng dẫn từng bước để xây dựng một plugin Flutter có thể giao tiếp với native, giúp bạn mở rộng khả năng của ứng dụng một cách linh hoạt.
-
-## 1. Tạo plugin
+## 1. Tạo tổng quan plugin
 ### 1.1. Tạo thư viện plugin Flutter
 Chạy lệnh sau để tạo plugin mới:
 ```bash
 flutter create --template=plugin your_plugin
 ```
-Lệnh này sẽ tạo một thư viện plugin với cấu trúc mặc định.
-- Sử dụng tùy chọn `--platforms` để chỉ định plugin sẽ có những ngôn ngữ nào. Có các tùy chọn như: android, ios, web, linux, macos, windows
-- Sử dụng tùy chọn `--org` để chỉ định tên miền cho tổ chức của bạn
-- Sử dụng tùy chọn `--a` để chỉ định ngôn ngữ cho android. Bạn có thể chọn java hoặc kotlin
-- Sử dụng tùy chọn `--i` để chỉ định ngôn ngữ cho ios. Bạn có thể chọn swift hoặc objc
+Hãy đảm bảo rằng plugin của bạn không dùng hoặc hạn chế thấp nhất có thể khi dùng thư viện của bên thứ 3. 
 
-Tham khảo: 
-```bash
-flutter create --org com.example --template=plugin --platforms=android,ios -a kotlin -i swift your_plugin
-```
-### 1.2. Cấu hình `your_plugin.dart`
-Để tạo Widget hay Function để người dùng plugin để thể gọi và sử dụng, bạn cần đưa file đó vào thư mục src và export nó ra ngoài. Khi làm vậy, người dùng chỉ cần import 1 dòng duy nhất là có thể sử dụng plugin của bạn.
+### 1.2. Cấu trúc của 1 plugin
 
 Cấu trúc thư mục của plugin như sau:
 ```
@@ -31,18 +22,19 @@ Cấu trúc thư mục của plugin như sau:
         |-- your_plugin_function.dart
     |-- your_plugin.dart
  ```
-
 Trong file `src/your_plugin_function.dart` định nghĩa giao tiếp giữa Dart và native:
+Hãy đảm bảo tất cả các file sử dụng đều được export vào trong `your_plugin.dart`, để bạn có thể import thư viện 1 lần duy nhất khi gọi đến nó. 
 
+## 2. Tạo method cho plugin
 Để gọi native code, cần sử dụng chanel, thông qua chanel ta sẽ gọi hàm native và nhận kết quả từ đó
-#### Step 1 Set up method
+
+### 2.1. Set up method cho dart
 ```dart
 part of YourPlugin;
 
 class YourPlugin {
 
   /// STEP I | setup method
-
   static const String nameMethod = 'YourPlugin';
   static const MethodChannel _methods = MethodChannel('$nameMethod/methods');
   final StreamController<MethodCall> _methodStream = StreamController.broadcast();
@@ -78,86 +70,9 @@ class YourPlugin {
   }
 }
 ```
-### Step 2
-Bây gờ, tạo hàm để gửi dữ liệu và lắng nghe kết quả từ native
-```dart
-/// STEP II | Talk (and get) to native
-  /// 2.1 | Type 1 Flutter -> Native -> Flutter
-  Future<int> exTalk({
-      int exMessage = 1,
-    }) async {
-      final Map<dynamic, dynamic> data = {};
-      data['ex_message'] = exMessage;
-      return await _invokeMethod('exTalk', data);
-  }
+### 2.2. Tạo Code Native Cho Android
 
-  /// 2.2 | Type 2 Native -> Flutter: Listen native
-  Stream<ListenState> get listenState async* {
-  yield* _methodStream.stream
-      .where((m) => m.method == "OnListenStateChanged")
-      .map((m) => m.arguments)
-      .map((args) => ListenState.fromMap(args));
-  }
-```
-### Step 3
-Tạo model lắng nghe kết quả từ native
-Trong file `lib/src/message_entity.dart`
-```dart
-part of YourPlugin;
-
-class ListenState {
-  ListenStateEnum state;
-
-  ListenState({
-    required this.state
-  });
-
-  Map<dynamic, dynamic> toMap() {
-    final Map<dynamic, dynamic> data = {};
-    data['state'] = state;
-    return data;
-  }
-
-  factory ListenState.fromMap(Map<dynamic, dynamic> json) {
-    return ListenState(
-      state: ListenStateEnum.getEnum(json['state']),
-    );
-  }
-}
-
-enum ListenStateEnum {
-  working(0),
-  free(1);
-
-  const ListenStateEnum( this.code);
-  final int code;
-  static ListenStateEnum getEnum(int code){
-    try {
-      return ListenStateEnum.values.firstWhere((element) => element.code == code,);
-    } catch (e) {
-      return ListenStateEnum.working;
-    }
-  }
-
-}
-```
-
-## 2. Tạo Code Native Cho Android
-first, create `android/src/main/kotlin/com/example/your_plugin/Utils.java` file
-```java
-package com.example.your_plugin;
-
-import android.util.Log;
-
-public class Utils {
-    private static final String TAG = "[YourPlugin-Android]";
-
-    void log(String message ) {
-        Log.d(TAG, message);
-    }
-}
-```
-And then create `TalkingWithFlutter.java`: Xử lý việc truyền dữ liệu giữa Flutter và native iOS thông qua MethodChannel.
+create `TalkingWithFlutter.java`: Xử lý việc truyền dữ liệu giữa Flutter và native iOS thông qua MethodChannel.
 ```java
 package com.example.your_plugin;
 
@@ -201,6 +116,14 @@ public class TalkingWithFlutter {
         invokeMethodUIThread("OnListenStateChanged", map);
     }
 }
+```
+Hàm này sử dụng để gửi dữ liệu từ native lên flutter. Nó sẽ hữu lích khi lắng nghe dự liệu qua bluetooth. 
+```java
+    public void onListenStateChanged(int state) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("state", state);
+        invokeMethodUIThread("OnListenStateChanged", map);
+    }
 ```
 and in `YourPlugin.java` file: Plugin chính xử lý các phương thức được gọi từ Flutter và giao tiếp với TalkingWithFlutter.
 ```java
@@ -259,6 +182,33 @@ public class YourPlugin implements FlutterPlugin, MethodCallHandler, PluginRegis
   }
 }
 ```
+Phần code này sẽ nhận dữ liệu được truyền từ flutter xuống thực thi nó và trả kết quả lại cho flutter.
+```java
+  private void exTalk(@NonNull MethodCall call, @NonNull Result result) {
+    HashMap<String, Object> data = call.arguments();
+    int copies = (int) data.get("ex_message");
+    utils.log(copies + "");
+
+    talkingWithFlutter.onListenStateChanged(TalkingWithFlutter.FREE);
+
+    result.success(TalkingWithFlutter.WORKING);
+  }
+```
+
+create `android/src/main/kotlin/com/example/your_plugin/Utils.java` file
+```java
+package com.example.your_plugin;
+
+import android.util.Log;
+
+public class Utils {
+    private static final String TAG = "[YourPlugin-Android]";
+
+    void log(String message ) {
+        Log.d(TAG, message);
+    }
+}
+```
 ## 3. Tạo Code Native Cho IOS
 Tương tự như android ` ios/Classes/Utils.swift` file
 
@@ -299,6 +249,18 @@ class TalkingWithFlutter : NSObject{
     }  
 
 }
+```
+Hàm này sử dụng để gửi dữ liệu từ native lên flutter. Nó sẽ hữu lích khi lắng nghe dự liệu qua bluetooth.
+```Swift
+    func onListenStateChanged(state: Int){
+        let response = [
+            "state": state,
+        ]
+        if methodChannel != nil {
+            methodChannel!.invokeMethod("OnListenStateChanged", arguments: response)
+            Utils.log("OnListenStateChanged \(response)")
+        }
+    }  
 ```
 and in `YourPlugin.swift` file: Plugin chính xử lý các phương thức được gọi từ Flutter và giao tiếp với TalkingWithFlutter.
 ```Swift
@@ -341,13 +303,102 @@ public class YourPlugin: NSObject, FlutterPlugin {
     }
 }
 ```
-## 4. Usage
-in file `main.dart` of your project:
+Phần code này sẽ nhận dữ liệu được truyền từ flutter xuống thực thi nó và trả kết quả lại cho flutter.
+```Swift
+  func exTalk(call: FlutterMethodCall ,result: @escaping FlutterResult) {
+        let args = call.arguments as? NSDictionary
+        let copies = args?["ex_message"] as? Int
+        Utils.log( "copies \(copies) ")
+
+        talking.onListenStateChanged(state: talking.FREE)
+
+        result(NSNumber(value: talking.WORKING))
+    }
+```
+
+## 3. Truyền dữ liệu
+### 3.1. Truyền dữ liệu chủ động, ra lệnh cho native
+Giao tiếp chủ động với native sẽ có 2 cách để truyền dữ liệu, cách đầu tiên là chủ động từ flutter gửi xuống native và sau đó native sẽ trả lại kết quả, đây là cách phổ biến. 
+chúng ta sẽ giao tiếp với native với method có tên là 'exTalk'. 
+```dart
+/// STEP II | Talk (and get) to native
+  /// 2.1 | Type 1 Flutter -> Native -> Flutter
+  Future<int> exTalk({
+      int exMessage = 1,
+    }) async {
+      final Map<dynamic, dynamic> data = {};
+      data['ex_message'] = exMessage;
+      return await _invokeMethod('exTalk', data);
+  }
+```
+
+
+### 3.2. Truyền dữ liệu thụ động, lắng nghe native
+Nhưng trong 1 vài trường hợp, chúng ta phải lắng nghe kết quả từ native sau đấy sẽ gửi lại lên flutter. VD 1 câu lệnh từ máy in truyền sang thiết bị, khi đó native sẽ gửi nó lên trên flutter để giải mã câu lệnh đó. 
+Chúng ta sẽ gọi đây là cách giao thiếp thụ động. Chúng ta sẽ sử dụng 1 stream để lắng nghe method có tên là "OnListenStateChanged".
+
+```dart
+  /// 2.2 | Type 2 Native -> Flutter: Listen native
+  Stream<ListenState> get listenState async* {
+  yield* _methodStream.stream
+      .where((m) => m.method == "OnListenStateChanged")
+      .map((m) => m.arguments)
+      .map((args) => ListenState.fromMap(args));
+  }
+```
+
+2 ngôn ngữ khác nhau sẽ có những kiểu dữ liệu khác nhau, chúng ta sẽ sử dụng json để giao tiếp chúng, tức là native sẽ biến kiểu dữ liệu thành json và gửi nó lên flutter, flutter sẽ đọc mã json đó là chuyển thành kiểu dữ liệu mong muốn.
+#### Biên dịch dữ liệu từ native thành dữ liệu của Flutter
+Trong file `lib/src/message_entity.dart`, giả sử tôi có ListenStateEnum quản lý trạng thái trên flutter, và nó sẽ lắng nghe dữ liệu trong json với key là 'state'.
+Giả sử chúng ta gửi từ native lên với dữ liệu của state là 0 thì flutter sẽ nhân được và biên dịch ra kết quả là ListenStateEnum.working
+```dart
+part of YourPlugin;
+
+class ListenState {
+  ListenStateEnum state;
+
+  ListenState({
+    required this.state
+  });
+
+  Map<dynamic, dynamic> toMap() {
+    final Map<dynamic, dynamic> data = {};
+    data['state'] = state;
+    return data;
+  }
+
+  factory ListenState.fromMap(Map<dynamic, dynamic> json) {
+    return ListenState(
+      state: ListenStateEnum.getEnum(json['state']),
+    );
+  }
+}
+
+enum ListenStateEnum {
+  working(0),
+  free(1);
+
+  const ListenStateEnum( this.code);
+  final int code;
+  static ListenStateEnum getEnum(int code){
+    try {
+      return ListenStateEnum.values.firstWhere((element) => element.code == code,);
+    } catch (e) {
+      return ListenStateEnum.working;
+    }
+  }
+
+}
+```
+
+## 4. Triển khai trong thực tế
+
+### 4.1. Tạo code example và test các chức năng trong flutter. 
 ```dart
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:{{name.snakeCase()}}/{{name.snakeCase()}}.dart';
+import 'package:your_plugin/your_plugin.dart';
 
 void main() {
   runApp(const MyApp());
@@ -422,14 +473,57 @@ class _MyAppState extends State<MyApp> {
   }
 }
 ```
-Cuối cùng run và xem thành quả
-## Tổng Kết
-Như vậy, chúng ta đã hoàn thành việc tạo một plugin Flutter giao tiếp với native thông qua MethodChannel. Plugin này giúp ứng dụng có thể:
+### 4.2. Khi giao tiếp bằng cách giao tiếp chủ động 
 
-Gửi dữ liệu từ Flutter đến native (iOS và Android).
+Tôi sẽ gửi 1 lệnh từ flutter xuống native và nó sẽ trả về ngay sau đó, tôi sẽ in nó ra màn hình ngay khi có kết quả. 
+```dart
+ final a = await _yourPlugin.exTalk(exMessage: 3);
+ print(a);
+```
+### 4.3. Khi giao tiếp bằng cách giao tiếp thụ động, lắng nghe từ native. 
+Ý tưởng của tôi là sử dụng Stream để lắng nghe dữ liệu, tôi sẽ trình bày 2 cách viết để nhận dữ liệu từ Stream, 
++ Đơn giản nhất là chúng ta sẽ sử dụng StreamBuilder để hiển thị kết quả ra màn hình. 
+```dart
+ StreamBuilder(
+    stream: _yourPlugin.listenState,
+    builder: (context, s) {
+    return Text("Way 1 - listenState: ${s.data?.state.toString()}");
+    }
+  ),
+```
++ Nếu bạn không cần hiển thị chúng ra màn hình mà sử lý những tác vụ khác phức tạp hơn thì hãy sử dụng StreamSubscription. 
+Tôi sẽ khi báo và triển khai nó trong 1 Statefull như sau:
+```dart  
+  ListenStateEnum _listenState = ListenStateEnum.working;
+  late StreamSubscription<ListenState> _listenStateSubscription;
 
-Nhận phản hồi từ native.
+  @override
+  void initState() {
+    super.initState();
+    _listenStateSubscription = _yourPlugin.listenState.listen((value) {
+      _listenState = value.state;
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
 
-Lắng nghe sự kiện từ native thông qua Stream.
+  @override
+  void dispose() {
+    _listenStateSubscription.cancel();
+    super.dispose();
+  }
+```
+Việc hiển thị kết quả chỉ đơn giản như thế này: 
+```dart  
+Text("Way 2 - listenState: $_listenState"),
+```
 
-Bằng cách tách biệt từng lớp (Utils.swift, TalkingWithFlutter.swift, và YourPlugin.swift), chúng ta đảm bảo mã nguồn có cấu trúc rõ ràng, dễ bảo trì và mở rộng.
+## 5. Thiết lập nhanh hơn với mason
+Nếu bạn chưa biết mason, hãy tham bảo bài viết này của tôi về mason *LINK mason*. 
+Trên đây tôi đã trình bày về cách thiết lập 1 plugin mà tôi đang sử dụng, và 2 cách giao tiếp giữa native và flutter. Bạn có thể thấy nó khá là nhiều công đoạn đúng không. 
+Nếu mà mỗi khi tạo 1 plugin mới, chúng ta phải làm đi làm lại những bước trên thì mất rất nhiều thời gian. 
+Giải pháp của tôi là sử dụng mason, tôi sẽ tạo những file mẫu code và sau khi phải tạo 1 plugin mới, tôi sẽ chỉ cần sử dụng mason là đã có tất cả các mẫu code trên trong dự án. 
+Bạn có thể tham khảo brick dr_plugin của tôi tại https://brickhub.dev/bricks/dr_plugin 
+
+

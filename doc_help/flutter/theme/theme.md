@@ -1,6 +1,5 @@
 Thiết lập giao diện sáng tối và font chữ cho 1 ứng dụng Flutter 
 
-Việc phát triển UX của ứng dụng là 1 viện quan trọng, nó khiến người dùng thoải mái khi sử dụng và ở lại ứng dụng lâu hơn. 
 
 1. Thiết lập giao diện sáng tối 
 Giao diện sáng tối sẽ được chia ra làm 3 chế độ: 
@@ -142,3 +141,4 @@ Chúng ta hoàn toàn có thể tuỳ chỉnh style theo 1 kiểu design riêng 
 Khi thiết lập như này, khi giao diện sáng tối thay đổi, màu chữ cũng sẽ thay đổi theo màu của giao diện sáng tối. 
 
 Trên đây là bài trình bày của tôi về cách thiết lập giao diện sáng tối, bạn có thể tham khảo thêm tại cách tạo package ui tại *LINK*
+

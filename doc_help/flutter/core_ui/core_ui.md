@@ -1,12 +1,13 @@
 
-Tái sử dụng các ui của ứng dụng của bạn. 
+Tái sử dụng các ui Bạn đã xây dựng 
 
 Xây dựng 1 mẫu UI từ Fixma trong Flutter khá tốn công sức, từ kiểu chữ, form chữ, màu sắc, đến các widget sử dụng trong ứng dụng.
 Thường các dự án cá nhân, chúng ta sẽ luôn sử dụng lại các mẫu giao diện chúng ta đã từng tạo để giảm thời gian xây dựng ứng dụng, ví dụ như ứng dụng web và app có giao diện gần như tương tự nhau. 
 Việc tách biệt phần code giao diện có thể dùng lại ra 1 phần khác của úng dụng là 1 cách clean code và cũng áp dụng kiến thức trong lập tình hướng đối tượng. 
+Ngoài ra có thể biến nó thành nhiều theme trong ứng dụng của bạn. 
 
 1. Tổng quan cách xây dựng 1 core ui cho ứng dụng. 
-Hãy thử nhìn vào trang web này, nó được xây dựng bằng flutter và tôi sẽ trình bày cho bạn về cách tôi xây dựng UI tách biệt cho ứng dụng web của tôi 
+Hãy thử nhìn vào trang web https://wongcoupon.com/, nó được xây dựng bằng flutter và tôi sẽ trình bày cho bạn về cách tôi xây dựng UI tách biệt cho ứng dụng web của tôi 
 ![image1.png](image1.png)
 
 Như trong hình, tôi tách toàn bộ các ui vào trong thư mục packages ở bên ngoài của thử mục lib, và đặt tên nó là web_ui_core, 
@@ -247,7 +248,69 @@ const WebCardBloc(
 
 Để tìm hiểu nhiều hơn hãy tham khảo bài viết của tôi về responsitve màn hình tại *LINK* 
 
-Trên đây là cách tôi triển khai 1 package ui, khiến nó tách riêng khỏi thư mục lib giúp dễ dàng bảo trì, xây dựng mới và đơn giản các phần code xử lý. 
+4. icon
+Một trong những phần không thể thiếu của 1 bộ giao diện đó chính là các icon, tôi yêu thích sử dụng svg vì độ nhẹ của chúng với các hình ảnh đơn giản. Nếu 1 icon phức tạp thì bạn vẫn hay ưu tiên sử dụng png hơn là svg. 
+Tôi sử dụng flutter_gen_runner https://pub.dev/packages/flutter_gen_runner để đơn giản hoá quy trình tạo các icon này. Đầu tiên tôi sẽ lưu chúng vào trong assets của thư mục, sau đó cấu hình chúng trong file pubspeck.yaml của package như sau: 
+```yaml
+#install : dart pub global activate flutter_gen 5.6.0 (Window)
+# add C:\Users\SHD\AppData\Local\Pub\Cache\bin to path in env
+#run: fluttergen -c pubspec.yaml
+
+flutter_gen:
+  assets:
+    enabled: true
+    outputs:
+      class_name: DsgAssets
+      package_parameter_enabled: true
+  fonts:
+    enabled: true
+    outputs:
+      class_name: DsgFontFamily
+      package_parameter_enabled: true
+  colors:
+    enabled: true
+    outputs:
+      class_name: DsgColor
+      package_parameter_enabled: true
+    inputs:
+      - assets/colors/color.xml
+  output: lib/gen/src/ # Optional (default: lib/gen/)
+  line_length: 80 # Optional (default: 80)
+
+  integrations:
+    flutter_svg: true
+    flare_flutter: true
+    rive: true
+    lottie: true
+
+flutter:
+
+  assets:
+    - assets/icons/bold/
+    - assets/icons/light/
+    - assets/icons/logo/
+```
+Sau đó chạy lệnh này để sinh ra các đường dẫn icon trong thư mục gen
+```bash
+fluttergen -c pubspec.yaml
+```
+Bạn có thể tìm hiểu chi tiết hơn cách thiết lập trên trang web của thư viện https://pub.dev/packages/flutter_gen_runner
+Như vậy việc sử dụng sẽ trở nên dễ dàng hơn nhiều mà vẫn đảm bảo độ chính xác của đường dẫn icon đó. 
+
+```dart
+Widget build(BuildContext context) {
+  return Image.asset('assets/images/profile.jpeg');
+}
+```
+Change to
+```dart
+Widget build(BuildContext context) {
+  return DsgAssets.images.profile.image();
+}
+```
+
+Trên đây là cách tôi triển khai 1 package ui, khiến nó tách riêng khỏi thư mục lib giúp dễ dàng bảo trì, xây dựng mới và đơn giản các phần code xử lý.
+Hãy dùng sự sáng tạo của bạn để kết hợp chúng tại tạo ra các giao diện đẹp mắt, thân thiện với người dùng mà vẫn dễ dàng bảo trì và nâng cấp. 
 Hãy tìm hiểu thêm về bài viết package của tôi *LINK* nơi tôi đồng bộ tất các package của các dự án lại với nhau mà không cần phải copy 1 cách đơn thuần. 
 
 
